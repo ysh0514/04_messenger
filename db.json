@@ -1,0 +1,19 @@
+{
+  "messages": [
+    {
+      "userId": "test",
+      "userName": "user test",
+      "profileImage": "url",
+      "content": "",
+      "date": "2022-02-10"
+    }
+  ],
+  "usersInfo": [
+    {
+      "userId": "test",
+      "userName": "user test",
+      "password": "12345",
+      "profileImage": "url"
+    }
+  ]
+}
