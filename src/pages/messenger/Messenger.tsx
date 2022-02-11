@@ -18,7 +18,7 @@ interface ChatInputProps {
 }
 
 export default function Messenger({ userId, profileImage }: MessagengerProps) {
-  const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
+  const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지.
   const [sendMessageInfo, setSendMessageInfo] = useState<object>({});
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
