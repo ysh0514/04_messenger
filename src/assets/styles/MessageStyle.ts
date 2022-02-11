@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-
 const Container = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0px;
-  padding: 0px 20px;
+  padding: 15px 20px;
+  background-color: #f8f8f8;
 `;
 
 const ProfileImage = styled.img`
