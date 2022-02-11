@@ -12,8 +12,14 @@ interface MessagengerProps {
   profileImage: string;
 }
 
+interface ChatInputProps {
+  content: string;
+  date: string;
+}
+
 export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
+  const [sendMessageInfo, setSendMessageInfo] = useState<object>({});
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
   );
@@ -41,6 +47,9 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
           },
         });
         break;
+      case 'sendMessageInfo':
+        setSendMessageInfo(data);
+        break;
       default:
         break;
     }
@@ -49,8 +58,8 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   return (
     <div>
       {/* <Header />
-			<MessageContainer />
-			<ChatInput /> */}
+      <MessageContainer /> */}
+      <ChatInput onChange={onChange} />
     </div>
   );
 }
