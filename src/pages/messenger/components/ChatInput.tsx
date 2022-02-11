@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
@@ -9,6 +9,9 @@ const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
 
 interface MessageInfoProps {
+  userId: string;
+  userName: string;
+  profileImage: string;
   content: string;
   date: string;
 }
@@ -16,9 +19,10 @@ interface MessageInfoProps {
 interface ChatInputProps {
   // replyData: { userName: string; content: string };
   onChange: (type: string, data: any) => void;
+  getData: () => void;
 }
 
-export default function ChatInput() {
+export default function ChatInput({ onChange, getData }: ChatInputProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,10 +36,18 @@ export default function ChatInput() {
   const sendMessage = () => {
     if (messageText) {
       const chatInfo: MessageInfoProps = {
+        userId: 'test',
+        userName: 'test',
+        profileImage: 'url',
         content: messageText,
-        date: moment(new Date()).format('yyyy-mm-dd hh:MM:ss'),
+        date: moment().format('yyyy-mm-dd hh:MM:ss'),
       };
-
+      axios
+        .post('https://json-server-wanted14.herokuapp.com/messages', chatInfo)
+        .then((res) => {
+          getData();
+        });
+      // onChange('message', chatInfo);
       setMessageText('');
       setButtonDisabled(true);
     }

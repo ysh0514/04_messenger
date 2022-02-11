@@ -1,4 +1,3 @@
-import React from 'react';
 import Message from '../components/Message';
 
 export interface messagesProps {
@@ -24,9 +23,9 @@ export default function MessageContainer({
 }: MessageContainerProps) {
   return (
     <div ref={WrapperRef}>
-      {data.map((item) => (
+      {data.map((item, i) => (
         <Message
-          key={item.userId}
+          key={i}
           attr={item}
           onClickReply={onClickReply}
           onClickDelete={onClickDelete}

@@ -1,5 +1,7 @@
 import MessageStyle from 'assets/styles/MessageStyle';
 import { Modal } from 'components';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../store/reducers';
 
 const {
   Container,
@@ -36,6 +38,10 @@ export default function Message({
   onClickDelete,
 }: messageComponentProps) {
   const { userId, userName, profileImage, content, date } = attr;
+  const auth = useSelector((state: RootState) => state.authReducer);
+  const dispatch = useDispatch();
+  const isAuthor = userId === auth.userId;
+
   return (
     <Container>
       <ProfileImage src={profileImage} />
@@ -44,17 +50,17 @@ export default function Message({
           <UserNameDate>
             <UserName>
               {userName}
-              <AreYouAuthor>*</AreYouAuthor>
-              {/* *은 작성자에게만 보이게 합니다 */}
+              {isAuthor && <AreYouAuthor>*</AreYouAuthor>}
             </UserName>
             <MessageDate>{date}</MessageDate>
           </UserNameDate>
           {/* 모달창에는 표시 X */}
           <MessageFunction>
-            <DeleteBtn id={date} onClick={onClickDelete}>
-              삭제하기
-            </DeleteBtn>
-            {/* 삭제버튼은 작성자에게만 보이게 합니다 */}
+            {isAuthor && (
+              <DeleteBtn id={date} onClick={onClickDelete}>
+                삭제하기
+              </DeleteBtn>
+            )}
             <AnswerBtn id={date} onClick={onClickReply}>
               답장하기
             </AnswerBtn>
