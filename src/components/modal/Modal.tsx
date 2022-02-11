@@ -1,3 +1,5 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/reducers';
 import ModalStyle from '../../assets/styles/ModalStyle';
 
 const { ModalWrapper } = ModalStyle;
@@ -7,18 +9,27 @@ interface ModalProps {
   type: string;
   header: string;
   content: object; // 삭제 대상
-  onClick: (type: string) => void;
+  onClick: (type: string, data: any) => void;
 }
 
 export default function Modal(attr: ModalProps) {
   const { isShow, header, type, content, onClick } = attr;
+  const showModal = useSelector(
+    (state: RootState) => state.switReducer.showModal
+  );
+  const dispatch = useDispatch();
+
+  function closeModal() {
+    dispatch({ type: 'common', name: 'showModal', data: false });
+  }
+
   function getButtons() {
     // 일단 대화 삭제 경우만 작성하였음
     const btnGroup = [
-      <button key="cancel" onClick={() => onClick('cancel')}>
+      <button key="cancel" onClick={closeModal}>
         취소
       </button>,
-      <button key="delete" onClick={() => onClick('delete')}>
+      <button key="delete" onClick={() => onClick('delete', content)}>
         삭제
       </button>,
     ];
@@ -30,12 +41,11 @@ export default function Modal(attr: ModalProps) {
       <section>
         <header>
           {header}
-          <button className="close" onClick={() => onClick('cancel')}>
+          <button className="close" onClick={closeModal}>
             {' '}
           </button>
         </header>
-        {/* <main>{content}</main> */}
-        <main>삭제할 대화</main>
+        <main>{content}</main>
         <footer>{getButtons()}</footer>
       </section>
     </ModalWrapper>
