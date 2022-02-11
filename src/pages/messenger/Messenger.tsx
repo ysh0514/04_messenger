@@ -1,34 +1,52 @@
-import { Modal } from 'components';
-import React, { useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/reducers';
+import { useFetch } from '../../hooks';
+import { MessageListProps } from '../../utils/InterfaceSet';
 import { MESSAGES_MOCK_DATA } from 'utils/messagesMockData';
-import ChatInput from './components/ChatInput';
-import Header from './components/Header';
-import Message from './components/Message';
-import MessageContainer from './containers/MessageContainer';
+
+const apiParams = { url: '/messages', method: 'GET', params: {} };
 
 export default function Messenger() {
-  const latestConversationRef = useRef<HTMLDivElement>(null);
+  const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
+  const showModal = useSelector(
+    (state: RootState) => state.switReducer.showModal
+  );
+  const userInfoState = useSelector((state: RootState) => state.authReducer);
+  const dispatch = useDispatch();
+
+  const { response, onApiRequest } = useFetch(apiParams);
 
   useEffect(() => {
-    if (latestConversationRef.current === null) return;
-    latestConversationRef.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest',
-    });
-  }, [MESSAGES_MOCK_DATA.messages]);
+    if (!response) return;
 
-  const onChange = () => {};
-  const onClick = () => {};
+    setMessageList(response.data);
+  }, [response]);
+
+  function onChange(type: string, data: object) {
+    switch (type) {
+      case 'message': // message 추가
+        // onApiRequest({
+        // 	method: 'PUT',
+        // 	params: {
+        // 		userId: 'test',
+        // 		userName: 'user test',
+        // 		profileImage': url,
+        // 		content: '',
+        // 		date: '2022-02-10'
+        // 	}
+        // })
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <div>
-      <Header></Header>
-      <MessageContainer
-        data={MESSAGES_MOCK_DATA.messages}
-        ref={latestConversationRef}
-        onClick={onClick}
-      />
-      <ChatInput onChange={onChange} />
+      {/* {MESSAGES_MOCK_DATA.messages.map((item) => (
+        <Message key={item.userId} attr={item} />
+      ))} */}
     </div>
   );
 }

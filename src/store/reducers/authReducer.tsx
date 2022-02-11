@@ -4,7 +4,18 @@ interface AuthReducerProps {
   data: object;
 }
 
-export default function authReducer(state = {}, action: AuthReducerProps) {
+const initState = {
+  userId: '',
+  userName: '',
+  profileImage: '',
+  content: '',
+  date: '',
+};
+
+export default function authReducer(
+  state = initState,
+  action: AuthReducerProps
+) {
   switch (action.type) {
     case 'common':
       return { ...state, [action.name]: action.data };
