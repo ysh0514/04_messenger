@@ -5,6 +5,7 @@ interface AuthReducerProps {
 }
 
 const initState = {
+  isLogged: false,
   userId: '',
   userName: '',
   profileImage: '',
