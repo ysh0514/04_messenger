@@ -66,7 +66,12 @@ export default function Login() {
         <ErrorBox>{errorMsg}</ErrorBox>
       </InputContainer>
       <BtnContainer>
-        <LoginBtn onClick={handleLogin}>로그인</LoginBtn>
+        <LoginBtn
+          hasInput={!!loginInfo.id.length && !!loginInfo.password.length}
+          onClick={handleLogin}
+        >
+          로그인
+        </LoginBtn>
       </BtnContainer>
     </Container>
   );
