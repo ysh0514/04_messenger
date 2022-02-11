@@ -1,4 +1,5 @@
 import MessageStyle from 'assets/styles/MessageStyle';
+import { Modal } from 'components';
 
 const {
   Container,
@@ -25,9 +26,10 @@ interface messagesProps {
 
 interface messageComponentProps {
   attr: messagesProps;
+  onClick: () => void;
 }
 
-export default function Message({ attr }: messageComponentProps) {
+export default function Message({ attr, onClick }: messageComponentProps) {
   const { userId, userName, profileImage, content, date } = attr;
   return (
     <Container>
@@ -52,7 +54,13 @@ export default function Message({ attr }: messageComponentProps) {
         </UserNameDateFunction>
         <MessageText>{content}</MessageText>
       </MessageWrapper>
-      {/* {showModal ? <></> : <></>} */}
+      <Modal
+        isShow={true}
+        type={'삭제'}
+        header={'삭제'}
+        content={{ hi: 'hi' }}
+        onClick={onClick}
+      />
     </Container>
   );
 }
