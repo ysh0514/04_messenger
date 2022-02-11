@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
+import moment from 'moment';
 
 const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
 
 interface MessageInfoProps {
   text: string;
-  date: Date;
+  date: string;
 }
 
-interface MessageProps {
+interface ChatInputProps {
+  replyData: { userName: string; content: string };
   onChange: (chatInfo: object) => void;
 }
 
-export default function ChatInput({ onChange }: MessageProps) {
+export default function ChatInput({ replyData, onChange }: ChatInputProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -30,8 +32,10 @@ export default function ChatInput({ onChange }: MessageProps) {
     if (messageText) {
       const chatInfo: MessageInfoProps = {
         text: messageText,
-        date: new Date(),
+        date: moment(new Date()).format('yyyy-mm-dd hh:MM:ss'),
+        // date: new Date(),
       };
+      console.log(chatInfo);
       onChange(chatInfo);
       setMessageText('');
       setButtonDisabled(true);
@@ -49,6 +53,19 @@ export default function ChatInput({ onChange }: MessageProps) {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (replyData.content !== '') {
+      setMessageText(
+        replyData.userName +
+          '\n' +
+          replyData.content +
+          '\n' +
+          '회신:\n' +
+          messageText
+      );
+    }
+  }, [replyData]);
 
   return (
     <ChatInputContainer>
