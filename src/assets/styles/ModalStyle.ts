@@ -64,31 +64,31 @@ const ModalWrapper = styled.div<{ isShow: boolean }>`
       }
     }
 
-		& > open {
-			display: : flex;
-			align-items: center;
-			// animation
-			animation: modal-bg-show 0.3;
-		}
+    & > open {
+      display: flex;
+      align-items: center;
+      // animation
+      animation: modal-bg-show 0.3;
+    }
 
-		@keyframes modal-show {
-			from {
-				opacity: 0;
-				margin-top: -50px;
-			}
-			to {
-				opacity: 1;
-				margin-top: 0;
-			}
-		}
-		@keyframe modal-bg-show {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
+    @keyframes modal-show {
+      from {
+        opacity: 0;
+        margin-top: -50px;
+      }
+      to {
+        opacity: 1;
+        margin-top: 0;
+      }
+    }
+    @keyframe modal-bg-show {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
   }
 `;
 

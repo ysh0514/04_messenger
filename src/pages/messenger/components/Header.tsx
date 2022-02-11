@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { HEADER_LOGO } from 'utils/ImageUtil';
 import HeaderStyle from 'assets/styles/HeaderStyle';
 
 const {
   HeaderContainer,
+  WelcomeText,
+  LogoImage,
+  PointText,
   MenuContainer,
   MenuList,
   ProfileImage,
   MenuListItem,
-  WelcomeText,
   UserName,
 } = HeaderStyle;
 
@@ -31,7 +34,11 @@ export default function Header() {
   return (
     <>
       <HeaderContainer>
-        <WelcomeText>환영합니다 ooo님</WelcomeText>
+        <WelcomeText>
+          <LogoImage src={HEADER_LOGO} alt="로고 이미지" />
+          환영합니다
+          <PointText>ooo</PointText>님
+        </WelcomeText>
         <ProfileImage src="" alt="프로필 사진" onClick={profileClick} />
       </HeaderContainer>
       {isClick && (
