@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { useFetch } from '../../hooks';
 import { MessageListProps } from '../../utils/InterfaceSet';
-import { MESSAGES_MOCK_DATA } from 'utils/messagesMockData';
 
 const apiParams = { url: '/messages', method: 'GET', params: {} };
 
-export default function Messenger() {
+export default function Messenger({ userId: string, profileImage: string }) {
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
   );
-  const userInfoState = useSelector((state: RootState) => state.authReducer);
-  const dispatch = useDispatch();
 
   const { response, onApiRequest } = useFetch(apiParams);
 
@@ -23,19 +20,20 @@ export default function Messenger() {
     setMessageList(response.data);
   }, [response]);
 
-  function onChange(type: string, data: object) {
+  function onChange(type: string, data: any) {
     switch (type) {
       case 'message': // message 추가
-        // onApiRequest({
-        // 	method: 'PUT',
-        // 	params: {
-        // 		userId: 'test',
-        // 		userName: 'user test',
-        // 		profileImage': url,
-        // 		content: '',
-        // 		date: '2022-02-10'
-        // 	}
-        // })
+        onApiRequest({
+          ...apiParams,
+          method: 'POST',
+          params: {
+            userId: 'test',
+            userName: 'user test',
+            profileImage: 'url',
+            content: data.text,
+            date: data.date,
+          },
+        });
         break;
       default:
         break;
@@ -44,9 +42,9 @@ export default function Messenger() {
 
   return (
     <div>
-      {/* {MESSAGES_MOCK_DATA.messages.map((item) => (
-        <Message key={item.userId} attr={item} />
-      ))} */}
+      {/**
+       * 여기에 각 컴포넌트 넣어주세요
+       */}
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { RootState } from '../../store/reducers';
 import axios from 'axios';
 import LOGO from '../../assets/images/logo.svg';
 import LoginStyle from 'assets/styles/LoginStyle';
@@ -19,6 +21,7 @@ export default function Login() {
   const [loginInfo, setLoginInfo] = useState({ id: '', password: '' });
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleInputValue =
     (key: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +37,8 @@ export default function Login() {
       .then((res) => {
         if (res.data.length) {
           navigate('/');
-          // redux => isLogin = true 변경
+          dispatch({ type: 'common', name: 'isLogged', data: true });
+          dispatch({ type: 'common', name: 'userId', data: loginInfo.id });
         } else {
           setErrorMsg('아이디와 비밀번호를 확인해주세요');
         }
