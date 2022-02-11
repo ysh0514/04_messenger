@@ -31,7 +31,7 @@ export default function Login() {
     };
 
   const handleLogin = () => {
-    const END_POINT = 'http://localhost:4000/users';
+    const END_POINT = 'https://swit-korea.herokuapp.com/users';
     axios
       .get(`${END_POINT}?id=${loginInfo.id}&password=${loginInfo.password}`)
       .then((res) => {
