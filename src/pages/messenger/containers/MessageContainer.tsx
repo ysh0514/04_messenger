@@ -12,18 +12,25 @@ export interface messagesProps {
 interface MessageContainerProps {
   data: messagesProps[];
   ref: React.RefObject<HTMLDivElement>;
-  onClick: () => void;
+  onClickReply: (e) => void;
+  onClickDelete: (e) => void;
 }
 
 export default function MessageContainer({
   data,
   ref,
-  onClick,
+  onClickReply,
+  onClickDelete,
 }: MessageContainerProps) {
   return (
     <div ref={ref}>
       {data.map((item) => (
-        <Message key={item.userId} attr={item} onClick={onClick} />
+        <Message
+          key={item.userId}
+          attr={item}
+          onClickReply={onClickReply}
+          onClickDelete={onClickDelete}
+        />
       ))}
     </div>
   );
