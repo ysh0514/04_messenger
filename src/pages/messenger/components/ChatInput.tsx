@@ -11,11 +11,10 @@ interface MessageInfoProps {
 }
 
 interface ChatProps {
-  userInfo: Array<object>;
   onChange: (chatInfo: object) => void;
 }
 
-export default function ChatInput({ userInfo, onChange }: any) {
+export default function ChatInput({ onChange }: ChatProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,9 +27,11 @@ export default function ChatInput({ userInfo, onChange }: any) {
 
   const sendMessage = () => {
     if (messageText) {
-      userInfo[0].text = messageText;
-      userInfo[0].date = new Date();
-      onChange(userInfo);
+      const chatInfo: MessageInfoProps = {
+        text: messageText,
+        date: new Date(),
+      };
+      onChange(chatInfo);
       setMessageText('');
       setButtonDisabled(true);
     }
