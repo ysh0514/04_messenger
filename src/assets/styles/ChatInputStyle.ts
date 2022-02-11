@@ -10,7 +10,7 @@ const InputWrapper = styled.form`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 60px;
   border: 1px solid gray;
   border-radius: 4px;
   background: white;

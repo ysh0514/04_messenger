@@ -1,16 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { useFetch } from '../../hooks';
+import { MessageContainer, Header, ChatInput } from '../';
 import { MessageListProps, replyProps } from '../../utils/InterfaceSet';
-import { MESSAGES_MOCK_DATA } from 'utils/messagesMockData';
-import Header from './components/Header';
-import ChatInput from './components/ChatInput';
-import MessageContainer from './containers/MessageContainer';
 
 const apiParams = { url: '/messages', method: 'GET', params: {} };
 
-export default function Messenger() {
+interface MessagengerProps {
+  userId: string;
+  profileImage: string;
+}
+
+const CHAT = 'chat';
+const REPLY = 'reply';
+const DELETE = 'delete';
+
+export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const latestConversationRef = useRef<HTMLDivElement>(null);
   const [isReply, setIsReply] = useState(false);
   const [replyMessage, setReplyMessage] = useState<replyProps>();
@@ -19,8 +25,6 @@ export default function Messenger() {
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
   );
-  const userInfoState = useSelector((state: RootState) => state.authReducer);
-  const dispatch = useDispatch();
 
   const { response, onApiRequest } = useFetch(apiParams);
 
@@ -37,25 +41,22 @@ export default function Messenger() {
       block: 'end',
       inline: 'nearest',
     });
-  }, [MESSAGES_MOCK_DATA.messages]);
+  }, [messageList]);
 
-  const CHAT = 'chat';
-  const REPLY = 'reply';
-  const DELETE = 'delete';
-
-  function onChange(type: string, data?: object) {
+  function onChange(type: string, data?: any) {
     switch (type) {
       case 'message': // message 추가
-        // onApiRequest({
-        // 	method: 'PUT',
-        // 	params: {
-        // 		userId: 'test',
-        // 		userName: 'user test',
-        // 		profileImage': url,
-        // 		content: '',
-        // 		date: '2022-02-10'
-        // 	}
-        // })
+        onApiRequest({
+          ...apiParams,
+          method: 'POST',
+          params: {
+            userId: 'test',
+            userName: 'user test',
+            profileImage: 'url',
+            content: data.text,
+            date: data.date,
+          },
+        });
         break;
       case CHAT:
         return;
@@ -67,7 +68,7 @@ export default function Messenger() {
   function onClick(e: React.MouseEvent<HTMLButtonElement>, type: string) {
     switch (type) {
       case REPLY: {
-        const findMessageObject = MESSAGES_MOCK_DATA.messages.find(
+        const findMessageObject = messageList.find(
           (item) => item.date === e.currentTarget.id
         );
         // console.log(findMessageObject);
@@ -89,7 +90,7 @@ export default function Messenger() {
         return; // 쇼 모달 트루로 변함
       }
       case DELETE: {
-        const findMessageObject = MESSAGES_MOCK_DATA.messages.find(
+        const findMessageObject = messageList.find(
           (item) => item.date === e.currentTarget.id
         );
         setDeleteMessage(findMessageObject);
@@ -107,7 +108,7 @@ export default function Messenger() {
     <div>
       <Header />
       <MessageContainer
-        data={MESSAGES_MOCK_DATA.messages}
+        data={messageList}
         WrapperRef={latestConversationRef}
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
