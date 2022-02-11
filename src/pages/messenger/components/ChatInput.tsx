@@ -8,16 +8,16 @@ const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
 
 interface MessageInfoProps {
-  text: string;
+  content: string;
   date: string;
 }
 
 interface ChatInputProps {
-  replyData: { userName: string; content: string };
-  onChange: (chatInfo: object) => void;
+  // replyData: { userName: string; content: string };
+  onChange: (type: string, data: any) => void;
 }
 
-export default function ChatInput({ replyData, onChange }: ChatInputProps) {
+export default function ChatInput({ onChange }: ChatInputProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -31,12 +31,10 @@ export default function ChatInput({ replyData, onChange }: ChatInputProps) {
   const sendMessage = () => {
     if (messageText) {
       const chatInfo: MessageInfoProps = {
-        text: messageText,
+        content: messageText,
         date: moment(new Date()).format('yyyy-mm-dd hh:MM:ss'),
-        // date: new Date(),
       };
-      console.log(chatInfo);
-      onChange(chatInfo);
+      onChange('sendMessageInfo', chatInfo);
       setMessageText('');
       setButtonDisabled(true);
     }
@@ -54,18 +52,18 @@ export default function ChatInput({ replyData, onChange }: ChatInputProps) {
     e.preventDefault();
   };
 
-  useEffect(() => {
-    if (replyData.content !== '') {
-      setMessageText(
-        replyData.userName +
-          '\n' +
-          replyData.content +
-          '\n' +
-          '회신:\n' +
-          messageText
-      );
-    }
-  }, [replyData]);
+  // useEffect(() => {
+  //   if (replyData.content !== '') {
+  //     setMessageText(
+  //       replyData.userName +
+  //         '\n' +
+  //         replyData.content +
+  //         '\n' +
+  //         '회신:\n' +
+  //         messageText
+  //     );
+  //   }
+  // }, [replyData]);
 
   return (
     <ChatInputContainer>
