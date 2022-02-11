@@ -3,7 +3,8 @@ import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
 
-const { InputWrapper, TextArea, SendButton, SendIcon } = ChatInputStyle;
+const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
+  ChatInputStyle;
 
 interface MessageInfoProps {
   text: string;
@@ -50,19 +51,21 @@ export default function ChatInput({ onChange }: MessageProps) {
   };
 
   return (
-    <InputWrapper method="post" onSubmit={submit}>
-      <TextArea
-        onChange={WriteMessage}
-        value={messageText}
-        onKeyPress={pressSendMessage}
-      />
-      <SendButton onClick={sendMessage} disabled={buttonDisabled}>
-        <SendIcon
-          alt="전송 아이콘"
-          src={SEND_MESSAGE_ICON}
-          isDisabled={buttonDisabled}
+    <ChatInputContainer>
+      <InputWrapper method="post" onSubmit={submit}>
+        <TextArea
+          onChange={WriteMessage}
+          value={messageText}
+          onKeyPress={pressSendMessage}
         />
-      </SendButton>
-    </InputWrapper>
+        <SendButton onClick={sendMessage} disabled={buttonDisabled}>
+          <SendIcon
+            alt="전송 아이콘"
+            src={SEND_MESSAGE_ICON}
+            isDisabled={buttonDisabled}
+          />
+        </SendButton>
+      </InputWrapper>
+    </ChatInputContainer>
   );
 }
