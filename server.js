@@ -3,10 +3,14 @@ const server = jsonServer.create();
 const middlewares = jsonServer.defaults({
   static: './build',
 });
+const { messages, users } = require('./db.json');
 
 server.use(middlewares);
-
-const { users } = require('./db.json');
+server.use(
+  jsonServer.rewriter({
+    '/api/*': '/$1',
+  })
+);
 
 server.get('/users', async (req, res) => {
   const isQuery = !!Object.keys(req.query).length;
@@ -19,8 +23,6 @@ server.get('/users', async (req, res) => {
     res.send(users);
   }
 });
-
-const { messages } = require('./db.json');
 
 server.get('/messages', (req, res) => {
   res.send(messages);

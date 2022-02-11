@@ -7,7 +7,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/messenger" element={<Messenger />} />
+        <Route path="/" element={<Messenger />} />
       </Routes>
     </BrowserRouter>
   );
