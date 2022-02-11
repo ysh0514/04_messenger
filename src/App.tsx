@@ -22,6 +22,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route
           path="/"
           element={
@@ -29,6 +30,7 @@ export default function App() {
           }
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Messenger />} />
       </Routes>
     </BrowserRouter>
   );
