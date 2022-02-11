@@ -3,6 +3,7 @@ import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
 import moment from 'moment';
+import axios from 'axios';
 
 const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
@@ -17,7 +18,7 @@ interface ChatInputProps {
   onChange: (type: string, data: any) => void;
 }
 
-export default function ChatInput({ onChange }: ChatInputProps) {
+export default function ChatInput() {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,7 +35,7 @@ export default function ChatInput({ onChange }: ChatInputProps) {
         content: messageText,
         date: moment(new Date()).format('yyyy-mm-dd hh:MM:ss'),
       };
-      onChange('sendMessageInfo', chatInfo);
+
       setMessageText('');
       setButtonDisabled(true);
     }

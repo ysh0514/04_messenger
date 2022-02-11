@@ -12,15 +12,10 @@ interface MessagengerProps {
   profileImage: string;
 }
 
-
 interface ChatInputProps {
   content: string;
   date: string;
 }
-
-
-
-  
 
 const CHAT = 'chat';
 const REPLY = 'reply';
@@ -32,7 +27,8 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
-  const [sendMessageInfo, setSendMessageInfo] = useState<object>({});
+  // const [sendMessageInfo, setSendMessageInfo] =
+  //   useState<ChatInputProps>(Object);
 
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
@@ -55,6 +51,8 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     });
   }, [messageList]);
 
+  // console.log(sendMessageInfo);
+
   function onChange(type: string, data?: any) {
     switch (type) {
       case 'message': // message 추가
@@ -70,7 +68,6 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
           },
         });
         break;
-
       case CHAT:
         return;
       default:
@@ -120,7 +117,6 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
 
   return (
     <div>
-
       <Header />
       <MessageContainer
         data={messageList}
@@ -128,8 +124,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
       />
-      <ChatInput onChange={() => onChange(CHAT)} />
-
+      <ChatInput />
     </div>
   );
 }
