@@ -10,11 +10,11 @@ interface MessageInfoProps {
   date: Date;
 }
 
-interface ChatProps {
+interface MessageProps {
   onChange: (chatInfo: object) => void;
 }
 
-export default function ChatInput({ onChange }: ChatProps) {
+export default function ChatInput({ onChange }: MessageProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
