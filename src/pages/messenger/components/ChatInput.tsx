@@ -35,26 +35,33 @@ export default function ChatInput() {
   };
 
   const pressSendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.code === 'Enter') {
+    const keyCode = e.which || e.keyCode;
+    if (keyCode === 13 && !e.shiftKey) {
       sendMessage();
       e.preventDefault();
     }
   };
 
-  const test1 = (e: any) => {
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
   return (
-    <InputWrapper method="post" onSubmit={test1}>
-      <TextArea
-        onChange={WriteMessage}
-        value={messageText}
-        onKeyPress={pressSendMessage}
-      />
-      <SendButton onClick={sendMessage} disabled={buttonDisabled}>
-        {/* <SendIcon alt="전송 아이콘" src={SEND_MESSAGE_ICON} /> */}전송
-      </SendButton>
-    </InputWrapper>
+    <div>
+      <InputWrapper method="post" onSubmit={submit}>
+        <TextArea
+          onChange={WriteMessage}
+          value={messageText}
+          onKeyPress={pressSendMessage}
+        />
+        <SendButton onClick={sendMessage} disabled={buttonDisabled}>
+          <SendIcon
+            alt="전송 아이콘"
+            src={SEND_MESSAGE_ICON}
+            isDisabled={buttonDisabled}
+          />
+        </SendButton>
+      </InputWrapper>
+    </div>
   );
 }
