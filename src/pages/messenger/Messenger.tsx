@@ -2,11 +2,17 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { useFetch } from '../../hooks';
+import { MessageContainer, Header, ChatInput } from '../';
 import { MessageListProps } from '../../utils/InterfaceSet';
 
 const apiParams = { url: '/messages', method: 'GET', params: {} };
 
-export default function Messenger({ userId: string, profileImage: string }) {
+interface MessagengerProps {
+  userId: string;
+  profileImage: string;
+}
+
+export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
@@ -42,9 +48,9 @@ export default function Messenger({ userId: string, profileImage: string }) {
 
   return (
     <div>
-      {/**
-       * 여기에 각 컴포넌트 넣어주세요
-       */}
+      {/* <Header />
+			<MessageContainer />
+			<ChatInput /> */}
     </div>
   );
 }
