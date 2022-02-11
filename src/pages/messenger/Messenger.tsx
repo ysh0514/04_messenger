@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { useFetch } from '../../hooks';
-import { MessageListProps } from '../../utils/InterfaceSet';
+import { MessageListProps, replyProps } from '../../utils/InterfaceSet';
 import { MESSAGES_MOCK_DATA } from 'utils/messagesMockData';
 import Header from './components/Header';
 import ChatInput from './components/ChatInput';
@@ -12,7 +12,8 @@ const apiParams = { url: '/messages', method: 'GET', params: {} };
 
 export default function Messenger() {
   const latestConversationRef = useRef<HTMLDivElement>(null);
-  const [replyMessage, setReplyMessage] = useState<MessageListProps>();
+  const [isReply, setIsReply] = useState(false);
+  const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
   const showModal = useSelector(
@@ -63,17 +64,27 @@ export default function Messenger() {
     }
   }
 
-  function onClick(
-    e: React.MouseEventHandler<HTMLButtonElement>,
-    type: string
-  ) {
+  function onClick(e: React.MouseEvent<HTMLButtonElement>, type: string) {
     switch (type) {
       case REPLY: {
         const findMessageObject = MESSAGES_MOCK_DATA.messages.find(
           (item) => item.date === e.currentTarget.id
         );
-        setReplyMessage(findMessageObject);
-        console.log(findMessageObject);
+        // console.log(findMessageObject);
+        if (!findMessageObject) return;
+        if (replyMessage?.content === findMessageObject?.content) {
+          setIsReply((prev) => !prev);
+        } else {
+          setIsReply(true);
+        }
+        const newObj = {
+          userName: findMessageObject?.userName,
+          content: findMessageObject?.content,
+          isReply,
+        };
+        setReplyMessage(newObj);
+        console.log(newObj);
+
         // console.log(findMessage);
         return; // 쇼 모달 트루로 변함
       }
@@ -82,6 +93,7 @@ export default function Messenger() {
           (item) => item.date === e.currentTarget.id
         );
         setDeleteMessage(findMessageObject);
+        console.log(findMessageObject);
         // console.log(findMessage);
         //유저의 메세지를 띄워야함
         return;

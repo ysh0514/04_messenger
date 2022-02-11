@@ -12,8 +12,8 @@ export interface messagesProps {
 interface MessageContainerProps {
   data: messagesProps[];
   ref: React.RefObject<HTMLDivElement>;
-  onClickReply: (e) => void;
-  onClickDelete: (e) => void;
+  onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function MessageContainer({

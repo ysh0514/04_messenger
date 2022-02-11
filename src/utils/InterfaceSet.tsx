@@ -25,3 +25,9 @@ export interface responseProps {
 }
 
 // Array<MessageListProps> | Array<userInfoProps>
+
+export interface replyProps {
+  userName: string;
+  content: string;
+  isReply: boolean;
+}

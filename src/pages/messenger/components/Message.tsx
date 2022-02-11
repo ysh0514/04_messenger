@@ -26,8 +26,8 @@ interface messagesProps {
 
 interface messageComponentProps {
   attr: messagesProps;
-  onClickReply: (e) => void;
-  onClickDelete: (e) => void;
+  onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Message({
