@@ -1,10 +1,17 @@
-interface AuthReducerProps {
+interface switReducerProps {
   type: string;
   name: string;
   data: object;
 }
 
-export default function authReducer(state = {}, action: AuthReducerProps) {
+const initialState = {
+  showModal: false,
+};
+
+export default function switReducer(
+  state = initialState,
+  action: switReducerProps
+) {
   switch (action.type) {
     case 'common':
       return { ...state, [action.name]: action.data };

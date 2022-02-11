@@ -1,4 +1,24 @@
 {
+  "users": [
+    {
+      "id": "test",
+      "name": "user test",
+      "password": "12345",
+      "img": "url"
+    },
+    {
+      "id": "test1",
+      "name": "user test",
+      "password": "12345",
+      "img": "url"
+    },
+    {
+      "id": "test2",
+      "name": "user test",
+      "password": "12345",
+      "img": "url"
+    }
+  ],
   "messages": [
     {
       "userId": "test",
@@ -6,14 +26,6 @@
       "profileImage": "url",
       "content": "",
       "date": "2022-02-10"
-    }
-  ],
-  "usersInfo": [
-    {
-      "userId": "test",
-      "userName": "user test",
-      "password": "12345",
-      "profileImage": "url"
     }
   ]
 }
