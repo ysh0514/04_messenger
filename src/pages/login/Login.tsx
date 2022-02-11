@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LOGO from '../../assets/images/logo.svg';
 import LoginStyle from 'assets/styles/LoginStyle';
+import axios from 'axios';
 
 const {
   Container,
@@ -23,19 +24,21 @@ export default function Login() {
   };
 
   const handleLogin = () => {
-    console.log('login');
-    setErrorMsg('아이디 또는 비밀번호를 확인해주세요');
+    const END_POINT = 'http://localhost:4000/users';
+    axios
+      .get(`${END_POINT}?id=${loginInfo.id}&password=${loginInfo.password}`)
+      .then((res) => {
+        setErrorMsg(
+          res.data.length ? '성공' : '아이디 또는 비밀번호를 확인해주세요'
+        );
+      });
   };
 
-  const handleKeyPress = (e: Event) => {
+  const handleKeyPress = (e) => {
     if (e.type === 'keypress' && e.code === 'Enter') {
       handleLogin();
     }
   };
-
-  useEffect(() => {
-    console.log(loginInfo);
-  }, [loginInfo]);
 
   return (
     <Container>
@@ -57,7 +60,6 @@ export default function Login() {
       </InputContainer>
       <BtnContainer>
         <LoginBtn onClick={handleLogin}>로그인</LoginBtn>
-        <SignupBtn>회원가입</SignupBtn>
       </BtnContainer>
     </Container>
   );

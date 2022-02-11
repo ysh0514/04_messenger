@@ -41,7 +41,7 @@ const Input = styled.input`
 const ErrorBox = styled.div`
   color: red;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 30px;
   height: 20px;
 `;
 
@@ -55,7 +55,7 @@ const LoginBtn = styled.button`
   width: 400px;
   height: 80px;
   margin: 10px;
-  border: none;
+  border: 1px solid;
   cursor: pointer;
   color: gray;
   transition: 0.4s;
