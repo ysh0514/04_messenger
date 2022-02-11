@@ -5,9 +5,10 @@ const {
   HeaderContainer,
   MenuContainer,
   MenuList,
-  ProfileButton,
+  ProfileImage,
   MenuListItem,
   WelcomeText,
+  UserName,
 } = HeaderStyle;
 
 // interface headerProps {
@@ -31,13 +32,15 @@ export default function Header() {
     <>
       <HeaderContainer>
         <WelcomeText>환영합니다 ooo님</WelcomeText>
-        <ProfileButton type="button" onClick={profileClick}>
-          <img src="" alt="프로필 사진" />
-        </ProfileButton>
+        <ProfileImage src="" alt="프로필 사진" onClick={profileClick} />
       </HeaderContainer>
       {isClick && (
         <MenuContainer>
           <MenuList>
+            <MenuListItem>
+              <ProfileImage src="" alt="프로필 사진" />
+              <UserName>ooo</UserName>
+            </MenuListItem>
             <MenuListItem>User Setting</MenuListItem>
             <MenuListItem>Sign Out</MenuListItem>
           </MenuList>
