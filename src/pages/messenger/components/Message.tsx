@@ -1,4 +1,7 @@
 import MessageStyle from 'assets/styles/MessageStyle';
+import { Modal } from 'components';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../store/reducers';
 
 const {
   Container,
@@ -25,10 +28,20 @@ interface messagesProps {
 
 interface messageComponentProps {
   attr: messagesProps;
+  onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function Message({ attr }: messageComponentProps) {
+export default function Message({
+  attr,
+  onClickReply,
+  onClickDelete,
+}: messageComponentProps) {
   const { userId, userName, profileImage, content, date } = attr;
+  const auth = useSelector((state: RootState) => state.authReducer);
+  const dispatch = useDispatch();
+  const isAuthor = userId === auth.userId;
+
   return (
     <Container>
       <ProfileImage src={profileImage} />
@@ -37,22 +50,32 @@ export default function Message({ attr }: messageComponentProps) {
           <UserNameDate>
             <UserName>
               {userName}
-              <AreYouAuthor>*</AreYouAuthor>
-              {/* *은 작성자에게만 보이게 합니다 */}
+              {isAuthor && <AreYouAuthor>*</AreYouAuthor>}
             </UserName>
             <MessageDate>{date}</MessageDate>
           </UserNameDate>
           {/* 모달창에는 표시 X */}
           <MessageFunction>
-            <DeleteBtn>삭제하기</DeleteBtn>
-            {/* 삭제버튼은 작성자에게만 보이게 합니다 */}
-            <AnswerBtn>답장하기</AnswerBtn>
+            {isAuthor && (
+              <DeleteBtn id={date} onClick={onClickDelete}>
+                삭제하기
+              </DeleteBtn>
+            )}
+            <AnswerBtn id={date} onClick={onClickReply}>
+              답장하기
+            </AnswerBtn>
           </MessageFunction>
           {/*  모달창에는 표시 X */}
         </UserNameDateFunction>
         <MessageText>{content}</MessageText>
       </MessageWrapper>
-      {/* {showModal ? <></> : <></>} */}
+      {/* <Modal
+        isShow={true}
+        type={'삭제'}
+        header={'삭제'}
+        content={{ hi: 'hi' }}
+        onClick={onClick}
+      /> */}
     </Container>
   );
 }

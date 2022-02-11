@@ -11,18 +11,13 @@ export default function App() {
   const dispatch = useDispatch();
   const { response } = useLogin(auth.userId);
 
-  useEffect(() => {
-    if (!response) return;
-
-    dispatch({ type: 'common', name: 'userName', data: response.name });
-    dispatch({ type: 'common', name: 'userId', data: response.id });
-    dispatch({ type: 'common', name: 'profileImage', data: response.img });
-  }, []);
+  // useEffect(() => {
+  //   if (!response) return;
+  // }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-
         <Route
           path="/"
           element={
@@ -30,7 +25,6 @@ export default function App() {
           }
         />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Messenger />} />
       </Routes>
     </BrowserRouter>
   );

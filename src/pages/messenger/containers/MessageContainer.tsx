@@ -1,4 +1,3 @@
-import React from 'react';
 import Message from '../components/Message';
 
 export interface messagesProps {
@@ -11,14 +10,26 @@ export interface messagesProps {
 
 interface MessageContainerProps {
   data: messagesProps[];
-  ref: React.RefObject<HTMLDivElement>;
+  WrapperRef: React.RefObject<HTMLDivElement>;
+  onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export default function MessageContainer({ data, ref }: MessageContainerProps) {
+export default function MessageContainer({
+  data,
+  WrapperRef,
+  onClickReply,
+  onClickDelete,
+}: MessageContainerProps) {
   return (
-    <div ref={ref}>
-      {data.map((item) => (
-        <Message key={item.userId} attr={item} />
+    <div ref={WrapperRef}>
+      {data.map((item, i) => (
+        <Message
+          key={i}
+          attr={item}
+          onClickReply={onClickReply}
+          onClickDelete={onClickDelete}
+        />
       ))}
     </div>
   );
