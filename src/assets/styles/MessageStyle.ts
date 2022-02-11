@@ -31,7 +31,9 @@ const UserName = styled.span``;
 
 const MessageDate = styled.span``;
 
-const MessageText = styled.span``;
+const MessageText = styled.span`
+  white-space: pre-line;
+`;
 
 const AreYouAuthor = styled.span``;
 

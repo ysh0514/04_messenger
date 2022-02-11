@@ -37,17 +37,22 @@ export default function Message({ attr }: messageComponentProps) {
           <UserNameDate>
             <UserName>
               {userName}
-              {userId && <AreYouAuthor>*</AreYouAuthor>}
+              <AreYouAuthor>*</AreYouAuthor>
+              {/* *은 작성자에게만 보이게 합니다 */}
             </UserName>
             <MessageDate>{date}</MessageDate>
           </UserNameDate>
+          {/* 모달창에는 표시 X */}
           <MessageFunction>
-            {userId && <DeleteBtn>삭제하기</DeleteBtn>}
-            {!userId && <AnswerBtn>답장하기</AnswerBtn>}
+            <DeleteBtn>삭제하기</DeleteBtn>
+            {/* 삭제버튼은 작성자에게만 보이게 합니다 */}
+            <AnswerBtn>답장하기</AnswerBtn>
           </MessageFunction>
+          {/*  모달창에는 표시 X */}
         </UserNameDateFunction>
         <MessageText>{content}</MessageText>
       </MessageWrapper>
+      {/* {showModal ? <></> : <></>} */}
     </Container>
   );
 }
