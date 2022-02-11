@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-const InputWrapper = styled.div`
+const InputWrapper = styled.form`
   display: flex;
   width: 100%;
   height: 50px;
@@ -7,7 +7,7 @@ const InputWrapper = styled.div`
 
 const TextArea = styled.textarea`
   resize: none;
-  width: 100%;
+  width: 70%;
 `;
 
 const SendButton = styled.button`
