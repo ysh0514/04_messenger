@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
+
 const { InputWrapper, TextArea, SendButton, SendIcon } = ChatInputStyle;
 
 interface MessageInfoProps {
@@ -9,10 +10,14 @@ interface MessageInfoProps {
   date: Date;
 }
 
-export default function ChatInput() {
+interface ChatProps {
+  userInfo: Array<object>;
+  onChange: (chatInfo: object) => void;
+}
+
+export default function ChatInput({ userInfo, onChange }: any) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
-
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setButtonDisabled(false);
     setMessageText(e.target.value);
@@ -23,12 +28,9 @@ export default function ChatInput() {
 
   const sendMessage = () => {
     if (messageText) {
-      const date = new Date();
-      const messageInfo: MessageInfoProps = {
-        text: messageText,
-        date: date,
-      };
-      console.log(messageInfo);
+      userInfo[0].text = messageText;
+      userInfo[0].date = new Date();
+      onChange(userInfo);
       setMessageText('');
       setButtonDisabled(true);
     }
@@ -47,21 +49,19 @@ export default function ChatInput() {
   };
 
   return (
-    <div>
-      <InputWrapper method="post" onSubmit={submit}>
-        <TextArea
-          onChange={WriteMessage}
-          value={messageText}
-          onKeyPress={pressSendMessage}
+    <InputWrapper method="post" onSubmit={submit}>
+      <TextArea
+        onChange={WriteMessage}
+        value={messageText}
+        onKeyPress={pressSendMessage}
+      />
+      <SendButton onClick={sendMessage} disabled={buttonDisabled}>
+        <SendIcon
+          alt="전송 아이콘"
+          src={SEND_MESSAGE_ICON}
+          isDisabled={buttonDisabled}
         />
-        <SendButton onClick={sendMessage} disabled={buttonDisabled}>
-          <SendIcon
-            alt="전송 아이콘"
-            src={SEND_MESSAGE_ICON}
-            isDisabled={buttonDisabled}
-          />
-        </SendButton>
-      </InputWrapper>
-    </div>
+      </SendButton>
+    </InputWrapper>
   );
 }

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { SEND_MESSAGE_ICON } from '../../utils/ImageUtil';
 
 const InputWrapper = styled.form`
   display: flex;
@@ -8,6 +7,7 @@ const InputWrapper = styled.form`
   width: 70%;
   height: 50px;
   border: 1px solid gray;
+  border-radius: 4px;
 `;
 
 const TextArea = styled.textarea`
@@ -17,6 +17,7 @@ const TextArea = styled.textarea`
   height: 80%;
   border: none;
   font-size: 15px;
+  outline: none;
 `;
 
 const SendButton = styled.button`
