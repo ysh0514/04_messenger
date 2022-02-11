@@ -26,6 +26,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     setMessageList(response.data);
   }, [response]);
 
+  console.log(response);
   function onChange(type: string, data: any) {
     switch (type) {
       case 'message': // message 추가
