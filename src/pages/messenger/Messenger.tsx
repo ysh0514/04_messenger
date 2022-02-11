@@ -108,7 +108,7 @@ export default function Messenger() {
       <Header />
       <MessageContainer
         data={MESSAGES_MOCK_DATA.messages}
-        ref={latestConversationRef}
+        WrapperRef={latestConversationRef}
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
       />
