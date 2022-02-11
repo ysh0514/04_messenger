@@ -16,15 +16,15 @@ class HttpUtil {
       let data = {};
 
       if (method === 'GET') {
-        data = { data: !params ? {} : params };
+        data = { params: !params ? {} : params };
       } else {
         // POST 요청
-        data = { params: !params ? {} : params };
+        data = { data: !params ? {} : params };
       }
 
       // baseURL 옵션을 변경하거나 package.json 의 proxy 옵션을 넣어주면 됨.
       return axios({
-        baseURL: 'https://swit-korea.herokuapp.com/',
+        baseURL: 'https://json-server-wanted14.herokuapp.com',
         ...body,
         ...data,
       })

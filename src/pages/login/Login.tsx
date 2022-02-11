@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import axios from 'axios';
 import LOGO from '../../assets/images/logo.svg';
@@ -23,6 +23,8 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const authInfo = useSelector((state: RootState) => state.authReducer);
+
   const handleInputValue =
     (key: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
       // any 수정해야함
@@ -31,14 +33,26 @@ export default function Login() {
     };
 
   const handleLogin = () => {
-    const END_POINT = 'https://swit-korea.herokuapp.com/users';
+    const END_POINT = 'https://json-server-wanted14.herokuapp.com/users';
     axios
       .get(`${END_POINT}?id=${loginInfo.id}&password=${loginInfo.password}`)
       .then((res) => {
         if (res.data.length) {
+          const { data } = res;
           navigate('/');
           dispatch({ type: 'common', name: 'isLogged', data: true });
-          dispatch({ type: 'common', name: 'userId', data: loginInfo.id });
+          dispatch({ type: 'common', name: 'userId', data: data.userId });
+          dispatch({
+            type: 'common',
+            name: 'userName',
+            data: data.userName,
+          });
+          dispatch({
+            type: 'common',
+            name: 'profileImage',
+            data: data.profileImage,
+          });
+          console.log(authInfo);
         } else {
           setErrorMsg('아이디와 비밀번호를 확인해주세요');
         }

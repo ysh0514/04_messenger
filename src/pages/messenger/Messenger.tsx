@@ -4,8 +4,9 @@ import { RootState } from '../../store/reducers';
 import { useFetch } from '../../hooks';
 import { MessageContainer, Header, ChatInput } from '../';
 import { MessageListProps, replyProps } from '../../utils/InterfaceSet';
-
-const apiParams = { url: '/messages', method: 'GET', params: {} };
+import LoadingIndicator from 'components/LoadingIndicator';
+import Message from './components/Message';
+import axios from 'axios';
 
 interface MessagengerProps {
   userId: string;
@@ -27,8 +28,21 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
-  // const [sendMessageInfo, setSendMessageInfo] =
-  //   useState<ChatInputProps>(Object);
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const [apiParams, setApiParams] = useState({
+    url: '/messages',
+    method: 'GET',
+    params: {},
+  });
+
+  const getData = () => {
+    axios
+      .get('https://json-server-wanted14.herokuapp.com/messages')
+      .then((res) => {
+        console.log(res.data);
+        setMessageList(res.data);
+      });
+  };
 
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
@@ -36,11 +50,21 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
 
   const { response, onApiRequest } = useFetch(apiParams);
 
-  useEffect(() => {
-    if (!response) return;
+  // useEffect(() => {
+  //   if (!response) return;
 
-    setMessageList(response.data);
-  }, [response]);
+  //   setMessageList(response.data);
+  //   setIsLoading(false);
+  // }, [response]);
+
+  useEffect(() => {
+    getData();
+    setIsLoading(false);
+  }, []);
+
+  // useEffect(() => {
+  //   getData();
+  // }, [messageList]);
 
   useEffect(() => {
     if (latestConversationRef.current === null) return;
@@ -51,8 +75,6 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     });
   }, [messageList]);
 
-  // console.log(sendMessageInfo);
-
   function onChange(type: string, data?: any) {
     switch (type) {
       case 'message': // message 추가
@@ -60,10 +82,10 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
           ...apiParams,
           method: 'POST',
           params: {
-            userId: 'test',
-            userName: 'user test',
+            userId: data.userId,
+            userName: data.userName,
             profileImage: 'url',
-            content: data.text,
+            content: data.content,
             date: data.date,
           },
         });
@@ -115,7 +137,9 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     }
   }
 
-  return (
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : (
     <div>
       <Header />
       <MessageContainer
@@ -124,7 +148,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
       />
-      <ChatInput />
+      <ChatInput getData={getData} onChange={onChange} />
     </div>
   );
 }
