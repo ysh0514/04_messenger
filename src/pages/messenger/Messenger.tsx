@@ -12,6 +12,16 @@ interface MessagengerProps {
   profileImage: string;
 }
 
+
+interface ChatInputProps {
+  content: string;
+  date: string;
+}
+
+
+
+  
+
 const CHAT = 'chat';
 const REPLY = 'reply';
 const DELETE = 'delete';
@@ -22,6 +32,8 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
+  const [sendMessageInfo, setSendMessageInfo] = useState<object>({});
+
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal
   );
@@ -58,6 +70,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
           },
         });
         break;
+
       case CHAT:
         return;
       default:
@@ -99,6 +112,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         //유저의 메세지를 띄워야함
         return;
       }
+
       default:
         break;
     }
@@ -106,6 +120,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
 
   return (
     <div>
+
       <Header />
       <MessageContainer
         data={messageList}
@@ -114,6 +129,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         onClickDelete={(e) => onClick(e, DELETE)}
       />
       <ChatInput onChange={() => onChange(CHAT)} />
+
     </div>
   );
 }
