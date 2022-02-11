@@ -25,8 +25,6 @@ export default function Modal(attr: ModalProps) {
     return btnGroup;
   }
 
-  console.log(isShow);
-
   return (
     <ModalWrapper isShow={isShow}>
       <section>

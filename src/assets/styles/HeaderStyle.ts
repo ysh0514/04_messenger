@@ -4,13 +4,28 @@ const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px;
+  padding: 15px 30px;
   border-bottom: 1px solid lightgray;
 `;
 
 const WelcomeText = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 600;
+`;
+
+const LogoImage = styled.img`
+  width: 85px;
+  height: 40px;
+  margin-right: 10px;
+  cursor: pointer;
+`;
+
+const PointText = styled.span`
+  color: #fd5863;
+  margin-left: 5px;
 `;
 
 const ProfileImage = styled.img`
@@ -29,7 +44,7 @@ const MenuContainer = styled.div`
   background-color: white;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
   position: absolute;
-  top: 65px;
+  top: 60px;
   right: 20px;
   z-index: 100;
 `;
@@ -60,6 +75,8 @@ const UserName = styled.span`
 const HeaderStyle = {
   HeaderContainer,
   WelcomeText,
+  LogoImage,
+  PointText,
   MenuContainer,
   MenuList,
   ProfileImage,
