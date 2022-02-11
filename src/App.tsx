@@ -6,8 +6,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Messenger />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/messenger" element={<Messenger />} />
       </Routes>
     </BrowserRouter>
   );
