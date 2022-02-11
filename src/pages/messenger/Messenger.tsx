@@ -6,7 +6,12 @@ import { MessageListProps } from '../../utils/InterfaceSet';
 
 const apiParams = { url: '/messages', method: 'GET', params: {} };
 
-export default function Messenger({ userId: string, profileImage: string }) {
+interface Messenger {
+  userId: string;
+  profileImage: string;
+}
+
+export default function Messenger({ userId, profileImage }: Messenger) {
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
   const showModal = useSelector(
     (state: RootState) => state.switReducer.showModal

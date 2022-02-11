@@ -14,7 +14,7 @@ export const MESSAGES_MOCK_DATA = {
       profileImage:
         'https://user-images.githubusercontent.com/80146176/153492284-875184eb-0ac8-4787-9202-07e3a0ed3e57.png',
       content: '네 회의에 오신 것을 환영합니다',
-      date: '2022-02-10',
+      date: '1518-151-548',
     },
     {
       userId: 'limbs722',
