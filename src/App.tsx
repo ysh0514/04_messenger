@@ -17,7 +17,7 @@ export default function App() {
     dispatch({ type: 'common', name: 'userName', data: response.name });
     dispatch({ type: 'common', name: 'userId', data: response.id });
     dispatch({ type: 'common', name: 'profileImage', data: response.img });
-  });
+  }, []);
 
   return (
     <BrowserRouter>
