@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { HEADER_LOGO } from 'utils/ImageUtil';
 import HeaderStyle from 'assets/styles/HeaderStyle';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'store/reducers';
 
 const {
   HeaderContainer,
@@ -22,11 +24,15 @@ interface headerProps {
 export default function Header({ userName, profileImage }: headerProps) {
   // const { userName, profileImage } = attr;
   const [isClick, setIsClick] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const profileClick = () => {
     setIsClick((curr) => !curr);
   };
 
+  const handleLogout = () => {
+    //
+  };
   return (
     <>
       <HeaderContainer>
@@ -49,7 +55,7 @@ export default function Header({ userName, profileImage }: headerProps) {
               <UserName>{userName}</UserName>
             </MenuListItem>
             <MenuListItem>User Setting</MenuListItem>
-            <MenuListItem>Sign Out</MenuListItem>
+            <MenuListItem onClick={handleLogout}>Sign Out</MenuListItem>
           </MenuList>
         </MenuContainer>
       )}
