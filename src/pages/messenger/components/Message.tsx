@@ -27,6 +27,7 @@ interface messagesProps {
 }
 
 interface messageComponentProps {
+  getData: () => void;
   attr: messagesProps;
   onClickReply?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -35,6 +36,7 @@ interface messageComponentProps {
 }
 
 export default function Message({
+  getData,
   attr,
   onClickReply,
   onClickDelete,
@@ -79,6 +81,7 @@ export default function Message({
       </MessageWrapper>
       {showModal && deleteData && (
         <Modal
+          getData={getData}
           key={date}
           isShow={deleteData?.date === date}
           header={'메세지를 삭제하시겠습니까?'}

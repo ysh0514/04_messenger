@@ -6,9 +6,7 @@ import { useFetch } from '../../hooks';
 import { MessageContainer, Header, ChatInput } from '../';
 import { MessageListProps, replyProps } from '../../utils/InterfaceSet';
 import LoadingIndicator from 'components/LoadingIndicator';
-import Message from './components/Message';
 import axios from 'axios';
-import switReducer from 'store/reducers/switReducer';
 
 interface MessengerProps {
   userId: string;
@@ -74,9 +72,9 @@ export default function Messenger({
     setIsLoading(false);
   }, []);
 
-  // useEffect(() => {
-  //   getData();
-  // }, [messageList]);
+  useEffect(() => {
+    getData();
+  }, [showModal]);
 
   useEffect(() => {
     if (latestConversationRef.current === null) return;
@@ -155,6 +153,7 @@ export default function Messenger({
     <div ref={latestConversationRef}>
       <Header userName={userName} profileImage={profileImage} />
       <MessageContainer
+        getData={getData}
         data={messageList}
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
