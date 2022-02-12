@@ -27,7 +27,6 @@ interface MessageInfoProps {
 interface replyDataProps {
   userName: string;
   content: string;
-  isReply: boolean;
 }
 
 interface ChatInputProps {
@@ -87,18 +86,19 @@ export default function ChatInput({ getData, replyMessage }: ChatInputProps) {
     if (replyMessage.content !== '') {
       setButtonDisabled(false);
       setMessageText(
-        messageText +
-          '\n' +
-          '사용자 이름: ' +
+        '사용자 이름: ' +
           replyMessage.userName +
           '\n' +
           '채팅 내용: ' +
           replyMessage.content +
           '\n' +
-          '회신: \n'
+          '회신: ' +
+          messageText
       );
     }
   }, [replyMessage]);
+
+  console.log(messageText);
 
   return (
     <>
