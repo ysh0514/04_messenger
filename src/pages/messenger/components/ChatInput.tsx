@@ -4,6 +4,9 @@ import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
 import moment from 'moment';
 import axios from 'axios';
+import { RootState } from 'store/reducers';
+import { useSelector } from 'react-redux';
+import { idText } from 'typescript';
 
 const {
   ChatInputContainer,
@@ -15,6 +18,7 @@ const {
 } = ChatInputStyle;
 
 interface MessageInfoProps {
+  id: number;
   userId: string;
   userName: string;
   profileImage: string;
@@ -22,9 +26,16 @@ interface MessageInfoProps {
   date: string;
 }
 
+interface replyDataProps {
+  userName: string;
+  content: string;
+  isReply: boolean;
+}
+
 interface ChatInputProps {
   onChange: (type: string, data: any) => void;
   getData: () => void;
+  replyData?: replyDataProps;
 }
 
 export default function ChatInput({ getData, isReply, replyMessage }: any) {
@@ -37,13 +48,15 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
       setButtonDisabled(true);
     }
   };
+  const authInfo = useSelector((state: RootState) => state.authReducer);
 
   const sendMessage = () => {
     if (messageText) {
       const chatInfo: MessageInfoProps = {
-        userId: 'test',
-        userName: 'test',
-        profileImage: 'url',
+        id: Date.now(),
+        userId: authInfo.userId,
+        userName: authInfo.userName,
+        profileImage: authInfo.profileImage,
         content: messageText,
         date: moment().format('yyyy-mm-dd hh:MM:ss'),
       };
