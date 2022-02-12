@@ -10,8 +10,9 @@ import Message from './components/Message';
 import axios from 'axios';
 import switReducer from 'store/reducers/switReducer';
 
-interface MessagengerProps {
+interface MessengerProps {
   userId: string;
+  userName: string;
   profileImage: string;
 }
 
@@ -24,7 +25,11 @@ const CHAT = 'chat';
 const REPLY = 'reply';
 const DELETE = 'delete';
 
-export default function Messenger({ userId, profileImage }: MessagengerProps) {
+export default function Messenger({
+  userId,
+  userName,
+  profileImage,
+}: MessengerProps) {
   const latestConversationRef = useRef<HTMLDivElement>(null);
   const [isReply, setIsReply] = useState(false);
   const [replyMessage, setReplyMessage] = useState<replyProps>();
@@ -156,7 +161,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     <LoadingIndicator />
   ) : (
     <div ref={latestConversationRef}>
-      <Header />
+      <Header userName={userName} profileImage={profileImage} />
       <MessageContainer
         data={messageList}
         onClickReply={(e) => onClick(e, REPLY)}
