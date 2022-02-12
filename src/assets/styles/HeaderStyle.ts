@@ -36,7 +36,6 @@ const PointText = styled.span`
 const ProfileImage = styled.img`
   width: 30px;
   height: 30px;
-  border: 1px solid lightgray;
   border-radius: 50%;
   cursor: pointer;
 `;
@@ -66,6 +65,8 @@ const MenuList = styled.ul`
 const MenuListItem = styled.li`
   cursor: pointer;
   &:first-child {
+    display: flex;
+    align-items: center;
     border-bottom: 1px solid lightgray;
     padding-bottom: 10px;
   }
