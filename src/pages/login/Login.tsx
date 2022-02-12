@@ -35,8 +35,7 @@ export default function Login() {
   }, [dispatch, navigate, userInfo]);
 
   const handleInputValue =
-    (key: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      // any 수정해야함
+    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setLoginInfo({ ...loginInfo, [key]: e.target.value.toLowerCase() });
       setErrorMsg('');
     };
