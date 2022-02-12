@@ -43,14 +43,14 @@ export default function Modal(attr: ModalProps) {
         `https://json-server-wanted14.herokuapp.com/messages/${content.id}`
       )
       .then((res) => {
-        dispatch({ type: 'close' });
+        dispatch({ type: 'common', name: 'showModal', data: false });
+        alert('대화가 삭제되었습니다.');
         getData();
       });
-    // console.log(content.id, '삭제되었습니다.');
   };
 
   function closeModal() {
-    dispatch({ type: 'close' });
+    dispatch({ type: 'common', name: 'showModal', data: false });
   }
 
   return (
