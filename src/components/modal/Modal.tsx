@@ -1,11 +1,20 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../store/reducers';
+import { useDispatch } from 'react-redux';
 import ModalStyle from '../../assets/styles/ModalStyle';
-import { messagesProps } from 'pages/messenger/containers/MessageContainer';
 import Message from 'pages/messenger/components/Message';
 import axios from 'axios';
 
-const { ModalWrapper } = ModalStyle;
+const {
+  ModalOverlay,
+  ModalBox,
+  ModalTitleBox,
+  ModalTitle,
+  UserWarning,
+  ModalClose,
+  ModalContent,
+  UserSelectionBox,
+  UserCancle,
+  UserDelete,
+} = ModalStyle;
 
 interface modalProps {
   userId: string;
@@ -33,43 +42,33 @@ export default function Modal(attr: ModalProps) {
     );
     dispatch({ type: 'close' });
 
-    console.log(content.id, '삭제되었습니다.');
+    // console.log(content.id, '삭제되었습니다.');
   };
 
   function closeModal() {
     dispatch({ type: 'close' });
   }
 
-  // function getButtons() {
-  // 일단 대화 삭제 경우만 작성하였음
-  //   const btnGroup = [
-  //     <button key="cancel" onClick={closeModal}>
-  //       취소
-  //     </button>,
-  //     <button key="delete" onClick={() => onClick('delete', content)}>
-  //       삭제
-  //     </button>,
-  //   ];
-  //   return btnGroup;
-  // }
-
   return (
-    <ModalWrapper isShow={isShow}>
-      <section>
-        <header>
-          {header}
-          <button className="close" onClick={closeModal}>
-            닫기
-          </button>
-        </header>
-        <main>
+    <ModalOverlay isShow={isShow}>
+      <ModalBox>
+        <ModalTitleBox>
+          <ModalTitle>{header}</ModalTitle>
+          <ModalClose className="close" onClick={closeModal}>
+            X
+          </ModalClose>
+        </ModalTitleBox>
+        <ModalContent>
+          <UserWarning>
+            이 메시지를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.
+          </UserWarning>
           <Message attr={content} isDelete={true} />
-        </main>
-        <footer>
-          <button>취소</button>
-          <button onClick={onDelete}>삭제</button>
-        </footer>
-      </section>
-    </ModalWrapper>
+        </ModalContent>
+        <UserSelectionBox>
+          <UserCancle>취소</UserCancle>
+          <UserDelete onClick={onDelete}>삭제</UserDelete>
+        </UserSelectionBox>
+      </ModalBox>
+    </ModalOverlay>
   );
 }
