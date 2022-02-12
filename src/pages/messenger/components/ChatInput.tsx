@@ -5,8 +5,14 @@ import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
 import moment from 'moment';
 import axios from 'axios';
 
-const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
-  ChatInputStyle;
+const {
+  ChatInputContainer,
+  InputWrapper,
+  TextArea,
+  SendButton,
+  SendIcon,
+  EmptyBox,
+} = ChatInputStyle;
 
 interface MessageInfoProps {
   userId: string;
@@ -75,27 +81,30 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
           replyMessage.content +
           '\n' +
           '회신: \n' +
-          messageText
+          +messageText
       );
     }
   }, [replyMessage]);
 
   return (
-    <ChatInputContainer>
-      <InputWrapper method="post" onSubmit={submit}>
-        <TextArea
-          onChange={WriteMessage}
-          value={messageText}
-          onKeyPress={pressSendMessage}
-        />
-        <SendButton onClick={sendMessage} disabled={buttonDisabled}>
-          <SendIcon
-            alt="전송 아이콘"
-            src={SEND_MESSAGE_ICON}
-            isDisabled={buttonDisabled}
+    <>
+      <ChatInputContainer>
+        <InputWrapper method="post" onSubmit={submit}>
+          <TextArea
+            onChange={WriteMessage}
+            value={messageText}
+            onKeyPress={pressSendMessage}
           />
-        </SendButton>
-      </InputWrapper>
-    </ChatInputContainer>
+          <SendButton onClick={sendMessage} disabled={buttonDisabled}>
+            <SendIcon
+              alt="전송 아이콘"
+              src={SEND_MESSAGE_ICON}
+              isDisabled={buttonDisabled}
+            />
+          </SendButton>
+        </InputWrapper>
+      </ChatInputContainer>
+      <EmptyBox />
+    </>
   );
 }
