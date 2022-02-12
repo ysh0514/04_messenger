@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
 import { useFetch } from '../../hooks';
 import { MessageContainer, Header, ChatInput } from '../';
@@ -7,6 +7,7 @@ import { MessageListProps, replyProps } from '../../utils/InterfaceSet';
 import LoadingIndicator from 'components/LoadingIndicator';
 import Message from './components/Message';
 import axios from 'axios';
+import switReducer from 'store/reducers/switReducer';
 
 interface MessagengerProps {
   userId: string;
@@ -24,6 +25,7 @@ const DELETE = 'delete';
 
 export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const latestConversationRef = useRef<HTMLDivElement>(null);
+  const dispatch = useDispatch();
   const [isReply, setIsReply] = useState(false);
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
@@ -39,15 +41,15 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     axios
       .get('https://json-server-wanted14.herokuapp.com/messages')
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setMessageList(res.data);
       });
   };
 
-  const showModal = useSelector(
-    (state: RootState) => state.switReducer.showModal
-  );
+  const showModal = useSelector((state: RootState) => state.switReducer);
+  console.log(messageList);
 
+  console.log(showModal);
   const { response, onApiRequest } = useFetch(apiParams);
 
   // useEffect(() => {
@@ -73,7 +75,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
       block: 'end',
       inline: 'nearest',
     });
-  }, [messageList]);
+  }, [messageList, replyMessage]);
 
   function onChange(type: string, data?: any) {
     switch (type) {
@@ -116,7 +118,8 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
           isReply,
         };
         setReplyMessage(newObj);
-        console.log(newObj);
+
+        // console.log(newObj);
 
         // console.log(findMessage);
         return; // 쇼 모달 트루로 변함
@@ -126,8 +129,8 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
           (item) => item.date === e.currentTarget.id
         );
         setDeleteMessage(findMessageObject);
+        dispatch({ type: 'open' });
         console.log(findMessageObject);
-        // console.log(findMessage);
         //유저의 메세지를 띄워야함
         return;
       }
@@ -146,13 +149,13 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   return isLoading ? (
     <LoadingIndicator />
   ) : (
-    <div>
+    <div ref={latestConversationRef}>
       <Header />
       <MessageContainer
         data={messageList}
-        WrapperRef={latestConversationRef}
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
+        deleteData={deleteMessage}
       />
       <ChatInput {...chatProps} />
     </div>
