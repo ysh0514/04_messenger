@@ -29,5 +29,4 @@ export interface responseProps {
 export interface replyProps {
   userName: string;
   content: string;
-  isReply: boolean;
 }
