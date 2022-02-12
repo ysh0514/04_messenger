@@ -6,6 +6,11 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 15px 30px;
   border-bottom: 1px solid lightgray;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
 `;
 
 const WelcomeText = styled.h1`
@@ -43,7 +48,7 @@ const MenuContainer = styled.div`
   border-radius: 5px;
   background-color: white;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  position: absolute;
+  position: fixed;
   top: 60px;
   right: 20px;
   z-index: 100;
