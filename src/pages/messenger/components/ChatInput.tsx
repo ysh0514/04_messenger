@@ -17,7 +17,6 @@ interface MessageInfoProps {
 }
 
 interface ChatInputProps {
-  // replyData: { userName: string; content: string };
   onChange: (type: string, data: any) => void;
   getData: () => void;
 }
@@ -47,7 +46,7 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
         .then((res) => {
           getData();
         });
-      // onChange('message', chatInfo);
+
       setMessageText('');
       setButtonDisabled(true);
     }
@@ -67,7 +66,6 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
 
   useEffect(() => {
     if (!replyMessage) return;
-    // if (!replyMessage.isReply) return setMessageText('');
     if (replyMessage.content !== '') {
       setMessageText(
         '사용자 이름: ' +
@@ -81,22 +79,6 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
       );
     }
   }, [replyMessage]);
-
-  // useEffect(() => {
-  //   if (replyMessage.content !== '') {
-  //     setMessageText(
-  //       replyMessage.userName +
-  //         '\n' +
-  //         replyMessage.content +
-  //         '\n' +
-  //         '회신:\n' +
-  //         messageText
-  //     );
-  //   }
-  // }, [isReply]);
-
-  console.log(replyMessage);
-  console.log(isReply);
 
   return (
     <ChatInputContainer>
