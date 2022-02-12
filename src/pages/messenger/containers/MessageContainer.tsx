@@ -10,25 +10,26 @@ export interface messagesProps {
 
 interface MessageContainerProps {
   data: messagesProps[];
-  WrapperRef: React.RefObject<HTMLDivElement>;
   onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  deleteData?: messagesProps;
 }
 
 export default function MessageContainer({
   data,
-  WrapperRef,
   onClickReply,
   onClickDelete,
+  deleteData,
 }: MessageContainerProps) {
   return (
-    <div ref={WrapperRef}>
+    <div style={{ paddingBottom: '100px' }}>
       {data.map((item, i) => (
         <Message
           key={i}
           attr={item}
           onClickReply={onClickReply}
           onClickDelete={onClickDelete}
+          deleteData={deleteData}
         />
       ))}
     </div>

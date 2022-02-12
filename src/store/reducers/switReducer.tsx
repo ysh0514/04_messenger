@@ -4,17 +4,17 @@ interface switReducerProps {
   data: object;
 }
 
-const initialState = {
-  showModal: false,
-};
+const initialState = false;
 
 export default function switReducer(
   state = initialState,
   action: switReducerProps
 ) {
   switch (action.type) {
-    case 'common':
-      return { ...state, [action.name]: action.data };
+    case 'open':
+      return true;
+    case 'close':
+      return false;
     default:
       return state;
   }

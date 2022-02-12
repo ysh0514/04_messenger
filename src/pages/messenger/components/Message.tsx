@@ -28,19 +28,23 @@ interface messagesProps {
 
 interface messageComponentProps {
   attr: messagesProps;
-  onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickReply?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  deleteData?: messagesProps;
+  isDelete?: boolean;
 }
 
 export default function Message({
   attr,
   onClickReply,
   onClickDelete,
+  deleteData,
+  isDelete = false,
 }: messageComponentProps) {
   const { userId, userName, profileImage, content, date } = attr;
   const auth = useSelector((state: RootState) => state.authReducer);
-  const dispatch = useDispatch();
   const isAuthor = userId === auth.userId;
+  const showModal = useSelector((state: RootState) => state.switReducer);
 
   return (
     <Container>
@@ -56,26 +60,29 @@ export default function Message({
           </UserNameDate>
           {/* 모달창에는 표시 X */}
           <MessageFunction>
-            {isAuthor && (
+            {isAuthor && !isDelete && (
               <DeleteBtn id={date} onClick={onClickDelete}>
                 삭제하기
               </DeleteBtn>
             )}
-            <AnswerBtn id={date} onClick={onClickReply}>
-              답장하기
-            </AnswerBtn>
+            {!isDelete && (
+              <AnswerBtn id={date} onClick={onClickReply}>
+                답장하기
+              </AnswerBtn>
+            )}
           </MessageFunction>
           {/*  모달창에는 표시 X */}
         </UserNameDateFunction>
         <MessageText>{content}</MessageText>
       </MessageWrapper>
-      {/* <Modal
-        isShow={true}
-        type={'삭제'}
-        header={'삭제'}
-        content={{ hi: 'hi' }}
-        onClick={onClick}
-      /> */}
+      {showModal && deleteData && (
+        <Modal
+          key={date}
+          isShow={deleteData?.date === date}
+          header={'메세지를 삭제하시겠습니까?'}
+          content={deleteData}
+        />
+      )}
     </Container>
   );
 }
