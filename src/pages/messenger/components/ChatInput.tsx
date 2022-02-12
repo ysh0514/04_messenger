@@ -72,7 +72,6 @@ export default function ChatInput({
         .then((res) => {
           scrollToBottom();
         });
-
       setMessageText('');
       setButtonDisabled(true);
     }
