@@ -54,6 +54,8 @@ const MessageDate = styled.span`
 `;
 
 const MessageText = styled.span`
+  word-break: break-all;
+  width: 88%;
   white-space: pre-line;
   font-size: 14px;
 `;

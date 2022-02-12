@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
@@ -6,6 +6,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { RootState } from 'store/reducers';
 import { useSelector } from 'react-redux';
+import { idText } from 'typescript';
 
 const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
@@ -26,17 +27,12 @@ interface replyDataProps {
 }
 
 interface ChatInputProps {
-  // replyData: { userName: string; content: string };
   onChange: (type: string, data: any) => void;
   getData: () => void;
   replyData?: replyDataProps;
 }
 
-export default function ChatInput({
-  onChange,
-  getData,
-  replyData,
-}: ChatInputProps) {
+export default function ChatInput({ getData, isReply, replyMessage }: any) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -63,7 +59,7 @@ export default function ChatInput({
         .then((res) => {
           getData();
         });
-      // onChange('message', chatInfo);
+
       setMessageText('');
       setButtonDisabled(true);
     }
@@ -82,19 +78,20 @@ export default function ChatInput({
   };
 
   useEffect(() => {
-    if (!replyData) return;
-    if (!replyData.isReply) return setMessageText('');
-    if (replyData.content !== '') {
+    if (!replyMessage) return;
+    if (replyMessage.content !== '') {
       setMessageText(
-        replyData.userName +
+        '사용자 이름: ' +
+          replyMessage.userName +
           '\n' +
-          replyData.content +
+          '채팅 내용: ' +
+          replyMessage.content +
           '\n' +
-          '회신:\n' +
+          '회신: \n' +
           messageText
       );
     }
-  }, [replyData]);
+  }, [replyMessage]);
 
   return (
     <ChatInputContainer>
