@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/reducers';
+import { useDispatch } from 'react-redux';
 import { userInfoProps } from '../../utils/InterfaceSet';
 import LOGO from '../../assets/images/logo.svg';
 import LoginStyle from 'assets/styles/LoginStyle';
@@ -25,10 +24,7 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const authInfo = useSelector((state: RootState) => state.authReducer);
-
   useEffect(() => {
-    // if (authInfo.userId === '' || !authInfo.userId) return
     if (!userInfo) return;
 
     dispatch({ type: 'common', name: 'isLogged', data: true });
@@ -46,13 +42,13 @@ export default function Login() {
     };
 
   const handleLogin = () => {
-    const END_POINT = 'https://json-server-wanted14.herokuapp.com/users';
+    const END_POINT = 'https://json-server-wanted14.herokuapp.com/login';
     axios
-      .get(`${END_POINT}?id=${loginInfo.id}&password=${loginInfo.password}`)
+      .post(END_POINT, { id: loginInfo.id, password: loginInfo.password })
       .then((res) => {
-        if (res.data.length) {
+        if (res.data) {
           const { data } = res;
-          setUserInfo(data[0]);
+          setUserInfo(data);
         } else {
           setErrorMsg('아이디와 비밀번호를 확인해주세요');
           setUserInfo(undefined);
