@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
 import moment from 'moment';
 import axios from 'axios';
+import { RootState } from 'store/reducers';
+import { useSelector } from 'react-redux';
 
 const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
 
 interface MessageInfoProps {
+  id: number;
   userId: string;
   userName: string;
   profileImage: string;
@@ -16,13 +19,24 @@ interface MessageInfoProps {
   date: string;
 }
 
+interface replyDataProps {
+  userName: string;
+  content: string;
+  isReply: boolean;
+}
+
 interface ChatInputProps {
   // replyData: { userName: string; content: string };
   onChange: (type: string, data: any) => void;
   getData: () => void;
+  replyData?: replyDataProps;
 }
 
-export default function ChatInput({ onChange, getData }: ChatInputProps) {
+export default function ChatInput({
+  onChange,
+  getData,
+  replyData,
+}: ChatInputProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -32,13 +46,15 @@ export default function ChatInput({ onChange, getData }: ChatInputProps) {
       setButtonDisabled(true);
     }
   };
+  const authInfo = useSelector((state: RootState) => state.authReducer);
 
   const sendMessage = () => {
     if (messageText) {
       const chatInfo: MessageInfoProps = {
-        userId: 'test',
-        userName: 'test',
-        profileImage: 'url',
+        id: Date.now(),
+        userId: authInfo.userId,
+        userName: authInfo.userName,
+        profileImage: authInfo.profileImage,
         content: messageText,
         date: moment().format('yyyy-mm-dd hh:MM:ss'),
       };
@@ -65,18 +81,20 @@ export default function ChatInput({ onChange, getData }: ChatInputProps) {
     e.preventDefault();
   };
 
-  // useEffect(() => {
-  //   if (replyData.content !== '') {
-  //     setMessageText(
-  //       replyData.userName +
-  //         '\n' +
-  //         replyData.content +
-  //         '\n' +
-  //         '회신:\n' +
-  //         messageText
-  //     );
-  //   }
-  // }, [replyData]);
+  useEffect(() => {
+    if (!replyData) return;
+    if (!replyData.isReply) return setMessageText('');
+    if (replyData.content !== '') {
+      setMessageText(
+        replyData.userName +
+          '\n' +
+          replyData.content +
+          '\n' +
+          '회신:\n' +
+          messageText
+      );
+    }
+  }, [replyData]);
 
   return (
     <ChatInputContainer>
