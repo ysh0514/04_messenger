@@ -85,15 +85,17 @@ export default function ChatInput({ getData, replyMessage }: ChatInputProps) {
   useEffect(() => {
     if (!replyMessage) return;
     if (replyMessage.content !== '') {
+      setButtonDisabled(false);
       setMessageText(
-        '사용자 이름: ' +
+        messageText +
+          '\n' +
+          '사용자 이름: ' +
           replyMessage.userName +
           '\n' +
           '채팅 내용: ' +
           replyMessage.content +
           '\n' +
-          '회신: \n' +
-          +messageText
+          '회신: \n'
       );
     }
   }, [replyMessage]);
