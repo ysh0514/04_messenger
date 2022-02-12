@@ -69,7 +69,9 @@ export default function Modal(attr: ModalProps) {
           <Message getData={getData} attr={content} isDelete={true} />
         </ModalContent>
         <UserSelectionBox>
-          <UserCancle>취소</UserCancle>
+          <UserCancle className="close" onClick={closeModal}>
+            취소
+          </UserCancle>
           <UserDelete onClick={onDelete}>삭제</UserDelete>
         </UserSelectionBox>
       </ModalBox>

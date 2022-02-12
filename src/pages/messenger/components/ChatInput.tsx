@@ -27,13 +27,11 @@ interface MessageInfoProps {
 interface replyDataProps {
   userName: string;
   content: string;
-  isReply: boolean;
 }
 
 interface ChatInputProps {
-  onChange: (type: string, data: any) => void;
   getData: () => void;
-  replyData?: replyDataProps;
+  replyMessage?: replyDataProps;
 }
 
 export default function ChatInput({
@@ -41,6 +39,7 @@ export default function ChatInput({
   scrollToBottom,
   replyMessage,
 }: any) {
+
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -93,6 +92,7 @@ export default function ChatInput({
   useEffect(() => {
     if (!replyMessage) return;
     if (replyMessage.content !== '') {
+      setButtonDisabled(false);
       setMessageText(
         '사용자 이름: ' +
           replyMessage.userName +
@@ -100,11 +100,13 @@ export default function ChatInput({
           '채팅 내용: ' +
           replyMessage.content +
           '\n' +
-          '회신: \n' +
-          +messageText
+          '회신: ' +
+          messageText
       );
     }
   }, [replyMessage]);
+
+  console.log(messageText);
 
   return (
     <>
