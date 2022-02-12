@@ -56,6 +56,15 @@ export default function Messenger({
 
   const { response, onApiRequest } = useFetch(apiParams);
 
+  const scrollToBottom = () => {
+    if (latestConversationRef.current === null) return;
+    latestConversationRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+      inline: 'nearest',
+    });
+  };
+
   // useEffect(() => {
   //   if (!response) return;
 
@@ -65,25 +74,10 @@ export default function Messenger({
 
   useEffect(() => {
     if (!userInfo.isLogged) navigate('/login');
-  }, []);
-
-  useEffect(() => {
     getData();
+    scrollToBottom();
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    getData();
-  }, [showModal]);
-
-  useEffect(() => {
-    if (latestConversationRef.current === null) return;
-    latestConversationRef.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest',
-    });
-  }, [messageList, replyMessage]);
 
   function onChange(type: string, data?: any) {
     switch (type) {
@@ -144,6 +138,7 @@ export default function Messenger({
 
   const chatProps = {
     getData,
+    scrollToBottom,
     replyMessage,
   };
 
