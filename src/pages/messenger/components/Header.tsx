@@ -22,7 +22,6 @@ interface headerProps {
 }
 
 export default function Header({ userName, profileImage }: headerProps) {
-  // const { userName, profileImage } = attr;
   const [isClick, setIsClick] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ export default function Header({ userName, profileImage }: headerProps) {
   const handleLogout = () => {
     dispatch({ type: 'common', name: 'isLogged', data: false });
     dispatch({ type: 'common', name: 'userId', data: '' });
-    dispatch({ type: 'common', name: 'userUser', data: '' });
+    dispatch({ type: 'common', name: 'userName', data: '' });
     dispatch({ type: 'common', name: 'profileImage', data: '' });
     dispatch({ type: 'common', name: 'content', data: '' });
     dispatch({ type: 'common', name: 'date', data: '' });
