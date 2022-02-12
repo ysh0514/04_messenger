@@ -46,12 +46,18 @@ const SendIcon = styled.img<{ isDisabled: boolean }>`
   filter: ${(props) => (props.isDisabled ? 'invert(50%)' : '')};
 `;
 
+const EmptyBox = styled.div`
+  bottom: 0;
+  height: 10px;
+`;
+
 const ChatInputStyle = {
   InputWrapper,
   TextArea,
   SendButton,
   SendIcon,
   ChatInputContainer,
+  EmptyBox,
 };
 
 export default ChatInputStyle;
