@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
-import moment from 'moment';
 import axios from 'axios';
 import { RootState } from 'store/reducers';
 import { useSelector } from 'react-redux';
-import { idText } from 'typescript';
 
 const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
@@ -45,6 +43,8 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
   const authInfo = useSelector((state: RootState) => state.authReducer);
 
   const sendMessage = () => {
+    const moment = require('moment-timezone');
+
     if (messageText) {
       const chatInfo: MessageInfoProps = {
         id: Date.now(),
@@ -52,7 +52,7 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
         userName: authInfo.userName,
         profileImage: authInfo.profileImage,
         content: messageText,
-        date: moment().format('yyyy-mm-dd hh:MM:ss'),
+        date: moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:MM:SS'),
       };
       axios
         .post('https://json-server-wanted14.herokuapp.com/messages', chatInfo)
