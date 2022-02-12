@@ -1,3 +1,3 @@
 export default function LoadingIndicator() {
-  return <div>로딩중입니다</div>;
+  return <img src="../assets/images/loading.gif" />;
 }

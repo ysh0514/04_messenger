@@ -5,6 +5,7 @@ import { RootState } from './store/reducers/';
 import { useLogin } from './hooks';
 import Login from 'pages/login/Login';
 import Messenger from 'pages/messenger/Messenger';
+import LoadingIndicator from 'components/LoadingIndicator';
 
 export default function App() {
   const auth = useSelector((state: RootState) => state.authReducer);
@@ -18,6 +19,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/loading" element={LoadingIndicator} />
         <Route
           path="/"
           element={
