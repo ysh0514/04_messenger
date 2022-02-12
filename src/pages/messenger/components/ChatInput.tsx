@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
@@ -17,12 +17,11 @@ interface MessageInfoProps {
 }
 
 interface ChatInputProps {
-  // replyData: { userName: string; content: string };
   onChange: (type: string, data: any) => void;
   getData: () => void;
 }
 
-export default function ChatInput({ onChange, getData }: ChatInputProps) {
+export default function ChatInput({ getData, isReply, replyMessage }: any) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -47,7 +46,7 @@ export default function ChatInput({ onChange, getData }: ChatInputProps) {
         .then((res) => {
           getData();
         });
-      // onChange('message', chatInfo);
+
       setMessageText('');
       setButtonDisabled(true);
     }
@@ -65,18 +64,21 @@ export default function ChatInput({ onChange, getData }: ChatInputProps) {
     e.preventDefault();
   };
 
-  // useEffect(() => {
-  //   if (replyData.content !== '') {
-  //     setMessageText(
-  //       replyData.userName +
-  //         '\n' +
-  //         replyData.content +
-  //         '\n' +
-  //         '회신:\n' +
-  //         messageText
-  //     );
-  //   }
-  // }, [replyData]);
+  useEffect(() => {
+    if (!replyMessage) return;
+    if (replyMessage.content !== '') {
+      setMessageText(
+        '사용자 이름: ' +
+          replyMessage.userName +
+          '\n' +
+          '채팅 내용: ' +
+          replyMessage.content +
+          '\n' +
+          '회신: \n' +
+          messageText
+      );
+    }
+  }, [replyMessage]);
 
   return (
     <ChatInputContainer>
