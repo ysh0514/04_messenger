@@ -26,22 +26,26 @@ interface modalProps {
 }
 
 interface ModalProps {
+  getData: () => void;
   isShow: boolean;
   header: string;
   content: modalProps; // 삭제 대상
 }
 
 export default function Modal(attr: ModalProps) {
-  const { isShow, header, content } = attr;
+  const { isShow, header, content, getData } = attr;
 
   const dispatch = useDispatch();
 
   const onDelete = () => {
-    axios.delete(
-      `https://json-server-wanted14.herokuapp.com/messages/${content.id}`
-    );
-    dispatch({ type: 'close' });
-
+    axios
+      .delete(
+        `https://json-server-wanted14.herokuapp.com/messages/${content.id}`
+      )
+      .then((res) => {
+        dispatch({ type: 'close' });
+        getData();
+      });
     // console.log(content.id, '삭제되었습니다.');
   };
 
@@ -62,7 +66,7 @@ export default function Modal(attr: ModalProps) {
           <UserWarning>
             이 메시지를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.
           </UserWarning>
-          <Message attr={content} isDelete={true} />
+          <Message getData={getData} attr={content} isDelete={true} />
         </ModalContent>
         <UserSelectionBox>
           <UserCancle className="close" onClick={closeModal}>

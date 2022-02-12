@@ -34,7 +34,12 @@ interface ChatInputProps {
   replyMessage?: replyDataProps;
 }
 
-export default function ChatInput({ getData, replyMessage }: ChatInputProps) {
+export default function ChatInput({
+  getData,
+  scrollToBottom,
+  replyMessage,
+}: any) {
+
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -62,6 +67,9 @@ export default function ChatInput({ getData, replyMessage }: ChatInputProps) {
         .post('https://json-server-wanted14.herokuapp.com/messages', chatInfo)
         .then((res) => {
           getData();
+        })
+        .then((res) => {
+          scrollToBottom();
         });
 
       setMessageText('');

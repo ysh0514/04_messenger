@@ -9,6 +9,7 @@ export interface messagesProps {
 }
 
 interface MessageContainerProps {
+  getData: () => void;
   data: messagesProps[];
   onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -16,6 +17,7 @@ interface MessageContainerProps {
 }
 
 export default function MessageContainer({
+  getData,
   data,
   onClickReply,
   onClickDelete,
@@ -25,6 +27,7 @@ export default function MessageContainer({
     <div style={{ paddingBottom: '100px' }}>
       {data.map((item, i) => (
         <Message
+          getData={getData}
           key={i}
           attr={item}
           onClickReply={onClickReply}
