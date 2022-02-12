@@ -6,6 +6,11 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 15px 30px;
   border-bottom: 1px solid lightgray;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
 `;
 
 const WelcomeText = styled.h1`
@@ -31,7 +36,6 @@ const PointText = styled.span`
 const ProfileImage = styled.img`
   width: 30px;
   height: 30px;
-  border: 1px solid lightgray;
   border-radius: 50%;
   cursor: pointer;
 `;
@@ -43,7 +47,7 @@ const MenuContainer = styled.div`
   border-radius: 5px;
   background-color: white;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  position: absolute;
+  position: fixed;
   top: 60px;
   right: 20px;
   z-index: 100;
@@ -61,6 +65,8 @@ const MenuList = styled.ul`
 const MenuListItem = styled.li`
   cursor: pointer;
   &:first-child {
+    display: flex;
+    align-items: center;
     border-bottom: 1px solid lightgray;
     padding-bottom: 10px;
   }

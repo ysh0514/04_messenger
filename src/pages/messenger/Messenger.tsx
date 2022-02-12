@@ -10,8 +10,9 @@ import Message from './components/Message';
 import axios from 'axios';
 import switReducer from 'store/reducers/switReducer';
 
-interface MessagengerProps {
+interface MessengerProps {
   userId: string;
+  userName: string;
   profileImage: string;
 }
 
@@ -24,9 +25,12 @@ const CHAT = 'chat';
 const REPLY = 'reply';
 const DELETE = 'delete';
 
-export default function Messenger({ userId, profileImage }: MessagengerProps) {
+export default function Messenger({
+  userId,
+  userName,
+  profileImage,
+}: MessengerProps) {
   const latestConversationRef = useRef<HTMLDivElement>(null);
-  const [isReply, setIsReply] = useState(false);
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
@@ -113,15 +117,9 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         );
         // console.log(findMessageObject);
         if (!findMessageObject) return;
-        if (replyMessage?.content === findMessageObject?.content) {
-          setIsReply((prev) => !prev);
-        } else {
-          setIsReply(true);
-        }
         const newObj = {
           userName: findMessageObject?.userName,
           content: findMessageObject?.content,
-          isReply,
         };
         setReplyMessage(newObj);
 
@@ -136,7 +134,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         );
         setDeleteMessage(findMessageObject);
         dispatch({ type: 'open' });
-        console.log(findMessageObject);
+        // console.log(findMessageObject);
         //유저의 메세지를 띄워야함
         return;
       }
@@ -148,7 +146,6 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
 
   const chatProps = {
     getData,
-    isReply,
     replyMessage,
   };
 
@@ -156,7 +153,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     <LoadingIndicator />
   ) : (
     <div ref={latestConversationRef}>
-      <Header />
+      <Header userName={userName} profileImage={profileImage} />
       <MessageContainer
         data={messageList}
         onClickReply={(e) => onClick(e, REPLY)}

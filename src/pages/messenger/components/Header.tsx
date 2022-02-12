@@ -14,16 +14,12 @@ const {
   UserName,
 } = HeaderStyle;
 
-// interface headerProps {
-//   userName: string;
-//   profileImage: string;
-// }
+interface headerProps {
+  userName: string;
+  profileImage: string;
+}
 
-// interface headerComponentProps {
-//   attr: headerProps;
-// }
-
-export default function Header() {
+export default function Header({ userName, profileImage }: headerProps) {
   // const { userName, profileImage } = attr;
   const [isClick, setIsClick] = useState<boolean>(false);
 
@@ -37,16 +33,20 @@ export default function Header() {
         <WelcomeText>
           <LogoImage src={HEADER_LOGO} alt="로고 이미지" />
           환영합니다
-          <PointText>ooo</PointText>님
+          <PointText>{userName}</PointText>님
         </WelcomeText>
-        <ProfileImage src="" alt="프로필 사진" onClick={profileClick} />
+        <ProfileImage
+          src={profileImage}
+          alt="프로필 사진"
+          onClick={profileClick}
+        />
       </HeaderContainer>
       {isClick && (
         <MenuContainer>
           <MenuList>
             <MenuListItem>
-              <ProfileImage src="" alt="프로필 사진" />
-              <UserName>ooo</UserName>
+              <ProfileImage src={profileImage} alt="프로필 사진" />
+              <UserName>{userName}</UserName>
             </MenuListItem>
             <MenuListItem>User Setting</MenuListItem>
             <MenuListItem>Sign Out</MenuListItem>
