@@ -8,6 +8,7 @@ import LoadingIndicator from 'components/LoadingIndicator';
 import axios from 'axios';
 
 interface MessengerProps {
+  isLogged: boolean;
   userId: string;
   userName: string;
   profileImage: string;
@@ -16,12 +17,30 @@ interface MessengerProps {
 const REPLY = 'reply';
 const DELETE = 'delete';
 
-export default function Messenger({ userName, profileImage }: MessengerProps) {
-  const latestConversationRef = useRef<HTMLDivElement>(null);
+export default function Messenger({
+  isLogged,
+  userName,
+  profileImage,
+}: MessengerProps) {
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]);
   const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const latestConversationRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (latestConversationRef.current === null) return;
+    latestConversationRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollToBottom();
+    }, 300);
+  }, [isLogged]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,19 +55,12 @@ export default function Messenger({ userName, profileImage }: MessengerProps) {
 
   const userInfo = useSelector((state: RootState) => state.authReducer);
 
-  const scrollToBottom = () => {
-    if (latestConversationRef.current === null) return;
-    latestConversationRef.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest',
-    });
-  };
+  useEffect(() => {});
 
   useEffect(() => {
     if (!userInfo.isLogged) navigate('/login');
-    getData();
     scrollToBottom();
+    getData();
     setIsLoading(false);
   }, []);
 
@@ -80,24 +92,26 @@ export default function Messenger({ userName, profileImage }: MessengerProps) {
   }
 
   const chatProps = {
-    getData,
     scrollToBottom,
+    getData,
     replyMessage,
   };
 
   return isLoading ? (
     <LoadingIndicator />
   ) : (
-    <div ref={latestConversationRef}>
+    <>
       <Header userName={userName} profileImage={profileImage} />
-      <MessageContainer
-        getData={getData}
-        data={messageList}
-        onClickReply={(e) => onClick(e, REPLY)}
-        onClickDelete={(e) => onClick(e, DELETE)}
-        deleteData={deleteMessage}
-      />
+      <div ref={latestConversationRef}>
+        <MessageContainer
+          getData={getData}
+          data={messageList}
+          onClickReply={(e) => onClick(e, REPLY)}
+          onClickDelete={(e) => onClick(e, DELETE)}
+          deleteData={deleteMessage}
+        />
+      </div>
       <ChatInput {...chatProps} />
-    </div>
+    </>
   );
 }

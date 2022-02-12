@@ -76,7 +76,9 @@ export default function Message({
           {/*  모달창에는 표시 X */}
         </UserNameDateFunction>
         <MessageText>
-          {isDelete ? `${content.slice(0, 10)}...` : content}
+          {isDelete && content.length > 9
+            ? `${content.slice(0, 10)}...`
+            : content}
         </MessageText>
       </MessageWrapper>
       {showModal && deleteData && (

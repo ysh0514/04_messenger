@@ -14,6 +14,7 @@ export default function App() {
           path="/"
           element={
             <Messenger
+              isLogged={auth.isLogged}
               userId={auth.userId}
               userName={auth.userName}
               profileImage={auth.profileImage}
