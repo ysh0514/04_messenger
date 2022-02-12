@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { HEADER_LOGO } from 'utils/ImageUtil';
 import HeaderStyle from 'assets/styles/HeaderStyle';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'store/reducers';
 
 const {
   HeaderContainer,
@@ -25,13 +25,20 @@ export default function Header({ userName, profileImage }: headerProps) {
   // const { userName, profileImage } = attr;
   const [isClick, setIsClick] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const profileClick = () => {
     setIsClick((curr) => !curr);
   };
 
   const handleLogout = () => {
-    //
+    dispatch({ type: 'common', name: 'isLogged', data: false });
+    dispatch({ type: 'common', name: 'userId', data: '' });
+    dispatch({ type: 'common', name: 'userUser', data: '' });
+    dispatch({ type: 'common', name: 'profileImage', data: '' });
+    dispatch({ type: 'common', name: 'content', data: '' });
+    dispatch({ type: 'common', name: 'date', data: '' });
+    navigate('/login');
   };
   return (
     <>
