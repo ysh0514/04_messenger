@@ -31,7 +31,6 @@ export default function Messenger({
   profileImage,
 }: MessengerProps) {
   const latestConversationRef = useRef<HTMLDivElement>(null);
-  const [isReply, setIsReply] = useState(false);
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]); // 모든 메세지
@@ -118,15 +117,9 @@ export default function Messenger({
         );
         // console.log(findMessageObject);
         if (!findMessageObject) return;
-        if (replyMessage?.content === findMessageObject?.content) {
-          setIsReply((prev) => !prev);
-        } else {
-          setIsReply(true);
-        }
         const newObj = {
           userName: findMessageObject?.userName,
           content: findMessageObject?.content,
-          isReply,
         };
         setReplyMessage(newObj);
 
@@ -141,7 +134,7 @@ export default function Messenger({
         );
         setDeleteMessage(findMessageObject);
         dispatch({ type: 'open' });
-        console.log(findMessageObject);
+        // console.log(findMessageObject);
         //유저의 메세지를 띄워야함
         return;
       }
@@ -153,7 +146,6 @@ export default function Messenger({
 
   const chatProps = {
     getData,
-    isReply,
     replyMessage,
   };
 

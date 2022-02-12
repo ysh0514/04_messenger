@@ -58,7 +58,7 @@ export default function ChatInput({ getData, isReply, replyMessage }: any) {
         userName: authInfo.userName,
         profileImage: authInfo.profileImage,
         content: messageText,
-        date: moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:MM:SS'),
+        date: moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss'),
       };
       axios
         .post('https://json-server-wanted14.herokuapp.com/messages', chatInfo)
