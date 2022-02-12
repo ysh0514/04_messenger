@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/reducers';
-import axios from 'axios';
+import { userInfoProps } from '../../utils/InterfaceSet';
 import LOGO from '../../assets/images/logo.svg';
 import LoginStyle from 'assets/styles/LoginStyle';
 
@@ -20,10 +21,22 @@ const {
 export default function Login() {
   const [loginInfo, setLoginInfo] = useState({ id: '', password: '' });
   const [errorMsg, setErrorMsg] = useState('');
+  const [userInfo, setUserInfo] = useState<userInfoProps>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const authInfo = useSelector((state: RootState) => state.authReducer);
+
+  useEffect(() => {
+    // if (authInfo.userId === '' || !authInfo.userId) return
+    if (!userInfo) return;
+
+    dispatch({ type: 'common', name: 'isLogged', data: true });
+    dispatch({ type: 'common', name: 'userId', data: userInfo.id });
+    dispatch({ type: 'common', name: 'userName', data: userInfo.name });
+    dispatch({ type: 'common', name: 'profileImage', data: userInfo.img });
+    navigate('/');
+  }, [dispatch, navigate, userInfo]);
 
   const handleInputValue =
     (key: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,22 +52,10 @@ export default function Login() {
       .then((res) => {
         if (res.data.length) {
           const { data } = res;
-          navigate('/');
-          dispatch({ type: 'common', name: 'isLogged', data: true });
-          dispatch({ type: 'common', name: 'userId', data: data.userId });
-          dispatch({
-            type: 'common',
-            name: 'userName',
-            data: data.userName,
-          });
-          dispatch({
-            type: 'common',
-            name: 'profileImage',
-            data: data.profileImage,
-          });
-          console.log(authInfo);
+          setUserInfo(data[0]);
         } else {
           setErrorMsg('아이디와 비밀번호를 확인해주세요');
+          setUserInfo(undefined);
         }
       });
   };

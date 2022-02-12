@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/reducers';
 import { useFetch } from '../../hooks';
 import { MessageContainer, Header, ChatInput } from '../';
@@ -25,7 +26,6 @@ const DELETE = 'delete';
 
 export default function Messenger({ userId, profileImage }: MessagengerProps) {
   const latestConversationRef = useRef<HTMLDivElement>(null);
-  const dispatch = useDispatch();
   const [isReply, setIsReply] = useState(false);
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
@@ -37,6 +37,9 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     params: {},
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const getData = () => {
     axios
       .get('https://json-server-wanted14.herokuapp.com/messages')
@@ -47,9 +50,8 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   };
 
   const showModal = useSelector((state: RootState) => state.switReducer);
-  console.log(messageList);
+  const userInfo = useSelector((state: RootState) => state.authReducer);
 
-  console.log(showModal);
   const { response, onApiRequest } = useFetch(apiParams);
 
   // useEffect(() => {
@@ -58,6 +60,10 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
   //   setMessageList(response.data);
   //   setIsLoading(false);
   // }, [response]);
+
+  useEffect(() => {
+    if (!userInfo.isLogged) navigate('/login');
+  }, []);
 
   useEffect(() => {
     getData();
