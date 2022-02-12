@@ -24,7 +24,7 @@ export default function MessageContainer({
   deleteData,
 }: MessageContainerProps) {
   return (
-    <div style={{ paddingBottom: '100px' }}>
+    <div style={{ paddingBottom: '180px' }}>
       {data.map((item, i) => (
         <Message
           getData={getData}
