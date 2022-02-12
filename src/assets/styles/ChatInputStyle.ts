@@ -48,7 +48,7 @@ const SendIcon = styled.img<{ isDisabled: boolean }>`
 
 const EmptyBox = styled.div`
   bottom: 0;
-  height: 10px;
+  height: 120px;
 `;
 
 const ChatInputStyle = {

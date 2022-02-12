@@ -6,14 +6,8 @@ import axios from 'axios';
 import { RootState } from 'store/reducers';
 import { useSelector } from 'react-redux';
 
-const {
-  ChatInputContainer,
-  InputWrapper,
-  TextArea,
-  SendButton,
-  SendIcon,
-  EmptyBox,
-} = ChatInputStyle;
+const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
+  ChatInputStyle;
 
 interface MessageInfoProps {
   id: number;
@@ -31,14 +25,14 @@ interface replyDataProps {
 
 interface ChatInputProps {
   getData: () => void;
-  scrollToBottom: () => void;
   replyMessage?: replyDataProps;
+  scrollToBottom: () => void;
 }
 
 export default function ChatInput({
   getData,
-  scrollToBottom,
   replyMessage,
+  scrollToBottom,
 }: ChatInputProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
@@ -68,10 +62,11 @@ export default function ChatInput({
         .post('https://json-server-wanted14.herokuapp.com/messages', chatInfo)
         .then((res) => {
           getData();
-        })
-        .then((res) => {
-          scrollToBottom();
+          setTimeout(() => {
+            scrollToBottom();
+          }, 230);
         });
+
       setMessageText('');
       setButtonDisabled(true);
     }
@@ -125,7 +120,7 @@ export default function ChatInput({
           </SendButton>
         </InputWrapper>
       </ChatInputContainer>
-      <EmptyBox />
+      {/* <EmptyBox /> */}
     </>
   );
 }

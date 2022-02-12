@@ -1,4 +1,7 @@
 import Message from '../components/Message';
+import ChatInputStyle from 'assets/styles/ChatInputStyle';
+
+const { EmptyBox } = ChatInputStyle;
 
 export interface messagesProps {
   userId: string;
@@ -24,7 +27,7 @@ export default function MessageContainer({
   deleteData,
 }: MessageContainerProps) {
   return (
-    <div style={{ paddingBottom: '180px' }}>
+    <>
       {data.map((item, i) => (
         <Message
           getData={getData}
@@ -35,6 +38,7 @@ export default function MessageContainer({
           deleteData={deleteData}
         />
       ))}
-    </div>
+      <EmptyBox />
+    </>
   );
 }
