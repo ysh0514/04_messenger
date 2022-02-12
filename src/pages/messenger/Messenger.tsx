@@ -137,6 +137,12 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
     }
   }
 
+  const chatProps = {
+    getData,
+    isReply,
+    replyMessage,
+  };
+
   return isLoading ? (
     <LoadingIndicator />
   ) : (
@@ -148,7 +154,7 @@ export default function Messenger({ userId, profileImage }: MessagengerProps) {
         onClickReply={(e) => onClick(e, REPLY)}
         onClickDelete={(e) => onClick(e, DELETE)}
       />
-      <ChatInput getData={getData} onChange={onChange} />
+      <ChatInput {...chatProps} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
@@ -22,7 +22,7 @@ interface ChatInputProps {
   getData: () => void;
 }
 
-export default function ChatInput({ onChange, getData }: ChatInputProps) {
+export default function ChatInput({ getData, isReply, replyMessage }: any) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -65,18 +65,38 @@ export default function ChatInput({ onChange, getData }: ChatInputProps) {
     e.preventDefault();
   };
 
+  useEffect(() => {
+    if (!replyMessage) return;
+    // if (!replyMessage.isReply) return setMessageText('');
+    if (replyMessage.content !== '') {
+      setMessageText(
+        '사용자 이름: ' +
+          replyMessage.userName +
+          '\n' +
+          '채팅 내용: ' +
+          replyMessage.content +
+          '\n' +
+          '회신: \n' +
+          messageText
+      );
+    }
+  }, [replyMessage]);
+
   // useEffect(() => {
-  //   if (replyData.content !== '') {
+  //   if (replyMessage.content !== '') {
   //     setMessageText(
-  //       replyData.userName +
+  //       replyMessage.userName +
   //         '\n' +
-  //         replyData.content +
+  //         replyMessage.content +
   //         '\n' +
   //         '회신:\n' +
   //         messageText
   //     );
   //   }
-  // }, [replyData]);
+  // }, [isReply]);
+
+  console.log(replyMessage);
+  console.log(isReply);
 
   return (
     <ChatInputContainer>

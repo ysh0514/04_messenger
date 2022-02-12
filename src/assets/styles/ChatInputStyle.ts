@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 
 const ChatInputContainer = styled.div`
-  padding: 20px;
+  position: fixed;
+  z-index: 3000;
+  padding: 30px 20px;
   background-color: #f8f8f8;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
 const InputWrapper = styled.form`
