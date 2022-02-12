@@ -9,7 +9,65 @@
 
 ## 📂 파일 구조
 
-파일 구조
+src     
+ ┣ assets        
+ ┃ ┣ images        
+ ┃ ┃ ┣ headerLogo.jpg       
+ ┃ ┃ ┣ loading.gif       
+ ┃ ┃ ┣ logo.svg      
+ ┃ ┃ ┗ sendMessage.png              
+ ┃ ┗ styles       
+ ┃ ┃ ┣ ChatInputStyle.ts      
+ ┃ ┃ ┣ GlobalStyle.ts       
+ ┃ ┃ ┣ HeaderStyle.ts          
+ ┃ ┃ ┣ LoginStyle.ts           
+ ┃ ┃ ┣ MessageStyle.ts        
+ ┃ ┃ ┣ ModalStyle.ts            
+ ┃ ┃ ┣ Theme.ts      
+ ┃ ┃ ┣ index.ts           
+ ┃ ┃ ┗ styled.d.ts       
+ ┣ components              
+ ┃ ┣ modal             
+ ┃ ┃ ┗ Modal.tsx     
+ ┃ ┣ LoadingIndicator.tsx     
+ ┃ ┗ index.tsx         
+ ┣ hooks      
+ ┃ ┣ index.tsx      
+ ┃ ┣ useFetch.tsx      
+ ┃ ┣ useLogin.tsx    
+ ┃ ┗ useStore.tsx          
+ ┣ pages      
+ ┃ ┣ login      
+ ┃ ┃ ┗ Login.tsx      
+ ┃ ┣ messenger     
+ ┃ ┃ ┣ components                    
+ ┃ ┃ ┃ ┣ Aside.tsx      
+ ┃ ┃ ┃ ┣ Chat.tsx         
+ ┃ ┃ ┃ ┣ ChatInput.tsx     
+ ┃ ┃ ┃ ┣ Header.tsx       
+ ┃ ┃ ┃ ┗ Message.tsx           
+ ┃ ┃ ┣ containers     
+ ┃ ┃ ┃ ┗ MessageContainer.tsx            
+ ┃ ┃ ┗ Messenger.tsx       
+ ┃ ┗ index.tsx      
+ ┣ store      
+ ┃ ┣ actions       
+ ┃ ┃ ┣ index.tsx    
+ ┃ ┃ ┗ types.tsx     
+ ┃ ┣ reducers        
+ ┃ ┃ ┣ authReducer.tsx      
+ ┃ ┃ ┣ index.tsx      
+ ┃ ┃ ┗ switReducer.tsx            
+ ┃ ┗ index.tsx       
+ ┣ utils       
+ ┃ ┣ HttpUtil.tsx      
+ ┃ ┣ ImageUtil.tsx       
+ ┃ ┣ InterfaceSet.tsx       
+ ┃ ┣ index.tsx      
+ ┃ ┗ messagesMockData.ts        
+ ┣  custom.d.ts         
+ ┣ App.tsx                
+ ┗ index.tsx   
 
 ## 📋개발 진행 상황 공유
 
