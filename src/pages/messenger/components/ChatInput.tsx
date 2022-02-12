@@ -39,7 +39,6 @@ export default function ChatInput({
   scrollToBottom,
   replyMessage,
 }: any) {
-
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -94,19 +93,18 @@ export default function ChatInput({
     if (replyMessage.content !== '') {
       setButtonDisabled(false);
       setMessageText(
-        '사용자 이름: ' +
+        messageText +
+          '\n' +
+          '사용자 이름: ' +
           replyMessage.userName +
           '\n' +
           '채팅 내용: ' +
           replyMessage.content +
           '\n' +
-          '회신: ' +
-          messageText
+          '회신: '
       );
     }
   }, [replyMessage]);
-
-  console.log(messageText);
 
   return (
     <>
