@@ -31,6 +31,7 @@ interface replyDataProps {
 
 interface ChatInputProps {
   getData: () => void;
+  scrollToBottom: () => void;
   replyMessage?: replyDataProps;
 }
 
@@ -38,7 +39,7 @@ export default function ChatInput({
   getData,
   scrollToBottom,
   replyMessage,
-}: any) {
+}: ChatInputProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
   const WriteMessage = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -48,6 +49,7 @@ export default function ChatInput({
       setButtonDisabled(true);
     }
   };
+
   const authInfo = useSelector((state: RootState) => state.authReducer);
 
   const sendMessage = () => {
