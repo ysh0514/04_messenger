@@ -23,7 +23,11 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Messenger userId={auth.userId} profileImage={auth.profileImage} />
+            <Messenger
+              userId={auth.userId}
+              userName={auth.userName}
+              profileImage={auth.profileImage}
+            />
           }
         />
         <Route path="/login" element={<Login />} />
