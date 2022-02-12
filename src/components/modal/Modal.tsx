@@ -44,7 +44,6 @@ export default function Modal(attr: ModalProps) {
       )
       .then((res) => {
         dispatch({ type: 'common', name: 'showModal', data: false });
-        alert('대화가 삭제되었습니다.');
         getData();
       });
   };
