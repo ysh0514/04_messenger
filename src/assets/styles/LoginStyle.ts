@@ -31,11 +31,11 @@ const Input = styled.input`
   margin: 10px;
   font-size: 16px;
   border: none;
-  border-bottom: solid 1px #b3b3b3;
+  border-bottom: solid 1px ${({ theme }) => theme.borderColor};
   transition: 0.4s;
   &::placeholder {
     font-size: 16px;
-    color: #828282;
+    color: ${({ theme }) => theme.lightGrayColor};
   }
   &:focus {
     transition: 0.2s;
@@ -45,7 +45,7 @@ const Input = styled.input`
 `;
 
 const ErrorBox = styled.div`
-  color: #ff585d;
+  color: ${({ theme }) => theme.pointRedColor};
   text-align: center;
   margin-top: 30px;
   height: 20px;
@@ -64,11 +64,13 @@ const LoginBtn = styled.button<ILoginBtn>`
   cursor: pointer;
   color: white;
   font-size: 18px;
-  background-color: ${({ hasInput }) => (hasInput ? '#FF585D' : '#828282')};
+  background-color: ${({ theme, hasInput }) =>
+    hasInput ? theme.pointRedColor : theme.lightGrayColor};
   transition: 0.4s;
   &:hover {
     transition: 0.2s;
-    color: ${({ hasInput }) => (hasInput ? '#FF585D' : 'white')};
+    color: ${({ theme, hasInput }) =>
+      hasInput ? theme.pointRedColor : 'white'};
   }
 `;
 

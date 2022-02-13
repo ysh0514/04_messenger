@@ -1,3 +1,3 @@
 export default function LoadingIndicator() {
-  return <img src="../assets/images/loading.gif" />;
+  return <img alt="로딩중" src="../assets/images/loading.gif" />;
 }

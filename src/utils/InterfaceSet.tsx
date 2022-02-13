@@ -1,4 +1,5 @@
 export interface MessageListProps {
+  id: string;
   userId: string;
   userName: string;
   profileImage: string;
@@ -29,4 +30,6 @@ export interface responseProps {
 export interface replyProps {
   userName: string;
   content: string;
+  isReply: boolean;
+  id: string;
 }

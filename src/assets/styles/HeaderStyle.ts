@@ -29,7 +29,7 @@ const LogoImage = styled.img`
 `;
 
 const PointText = styled.span`
-  color: #fd5863;
+  color: ${({ theme }) => theme.pointColor};
   margin-left: 5px;
 `;
 
@@ -46,7 +46,7 @@ const MenuContainer = styled.div`
   border: 1px solid lightgray;
   border-radius: 5px;
   background-color: white;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px 1px ${({ theme }) => theme.rgba10};
   position: fixed;
   top: 60px;
   right: 20px;

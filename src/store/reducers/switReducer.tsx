@@ -1,3 +1,5 @@
+import { CLOSE_TYPE, OPEN_TYPE } from 'store/actions/types';
+
 interface switReducerProps {
   type: string;
   name: string;
@@ -11,9 +13,9 @@ export default function switReducer(
   action: switReducerProps
 ) {
   switch (action.type) {
-    case 'open':
+    case OPEN_TYPE:
       return true;
-    case 'close':
+    case CLOSE_TYPE:
       return false;
     default:
       return state;

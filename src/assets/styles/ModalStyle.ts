@@ -9,15 +9,6 @@ const modalShowAnimation = keyframes`
       }
     `;
 
-const modalBgShowAnimation = keyframes`
-from {
-  opacity: 0;
-}
-to {
-  opacity: 1;
-}
-`;
-
 const ModalOverlay = styled.div<{ isShow: boolean }>`
   display: ${(props) => (!props.isShow ? 'none' : 'flex')};
   position: fixed;
@@ -30,7 +21,7 @@ const ModalOverlay = styled.div<{ isShow: boolean }>`
   bottom: 0;
   right: 0;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: ${({ theme }) => theme.rgba20};
 `;
 
 const ModalBox = styled.div`
@@ -43,7 +34,7 @@ const ModalBox = styled.div`
   margin: auto;
   bottom: 0px;
   border-radius: 0.3rem;
-  background-color: #ffffff;
+  background-color: white;
   // animation
   animation: ${modalShowAnimation} 0.3s;
   overflow: hidden;
@@ -64,7 +55,7 @@ const ModalTitle = styled.span`
 const ModalClose = styled.button`
   outline: none;
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.5);
+  color: ${({ theme }) => theme.rgba50};
   cursor: pointer;
   border: 0;
   font-weight: bold;
@@ -79,7 +70,7 @@ const UserWarning = styled.span`
   font-size: 13px;
   line-height: 20px;
   margin-bottom: 10px;
-  color: rgba(0, 0, 0, 0.8);
+  color: ${({ theme }) => theme.rgba80};
   font-weight: normal;
 `;
 
@@ -92,15 +83,15 @@ const UserCancle = styled.button`
   padding: 8px 20px;
   border-radius: 5px;
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: ${({ theme }) => theme.rgba50};
+  border: 1px solid ${({ theme }) => theme.rgba10};
   cursor: pointer;
 `;
 
 const UserDelete = styled(UserCancle)`
   margin-left: 12px;
   color: white;
-  background-color: rgb(165, 18, 0);
+  background-color: ${({ theme }) => theme.modalRed};
   border: none;
 `;
 

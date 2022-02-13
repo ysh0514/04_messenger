@@ -2,6 +2,9 @@ import { useDispatch } from 'react-redux';
 import ModalStyle from '../../assets/styles/ModalStyle';
 import Message from 'pages/messenger/components/Message';
 import axios from 'axios';
+import { MessageListProps } from 'utils/InterfaceSet';
+import { CLOSE_TYPE } from 'store/actions/types';
+import { MESSEAGE_URL } from 'constants/constants';
 
 const {
   ModalOverlay,
@@ -16,20 +19,11 @@ const {
   UserDelete,
 } = ModalStyle;
 
-interface modalProps {
-  userId: string;
-  userName: string;
-  profileImage: string;
-  content: string;
-  date: string;
-  id?: string;
-}
-
 interface ModalProps {
   getData: () => void;
   isShow: boolean;
   header: string;
-  content: modalProps; // 삭제 대상
+  content: MessageListProps;
 }
 
 export default function Modal(attr: ModalProps) {
@@ -38,18 +32,14 @@ export default function Modal(attr: ModalProps) {
   const dispatch = useDispatch();
 
   const onDelete = () => {
-    axios
-      .delete(
-        `https://json-server-wanted14.herokuapp.com/messages/${content.id}`
-      )
-      .then((res) => {
-        dispatch({ type: 'close' });
-        getData();
-      });
+    axios.delete(`${MESSEAGE_URL}/${content.id}`).then(() => {
+      dispatch({ type: CLOSE_TYPE });
+      getData();
+    });
   };
 
   function closeModal() {
-    dispatch({ type: 'close' });
+    dispatch({ type: CLOSE_TYPE });
   }
 
   return (

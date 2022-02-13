@@ -6,6 +6,13 @@ import { MessageContainer, Header, ChatInput } from '../';
 import { MessageListProps, replyProps } from '../../utils/InterfaceSet';
 import LoadingIndicator from 'components/LoadingIndicator';
 import axios from 'axios';
+import {
+  DELETE,
+  LOGIN_ROUTE_URL,
+  MESSEAGE_URL,
+  REPLY,
+} from 'constants/constants';
+import { OPEN_TYPE } from 'store/actions/types';
 
 interface MessengerProps {
   isLogged: boolean;
@@ -13,9 +20,6 @@ interface MessengerProps {
   userName: string;
   profileImage: string;
 }
-
-const REPLY = 'reply';
-const DELETE = 'delete';
 
 export default function Messenger({
   isLogged,
@@ -25,8 +29,10 @@ export default function Messenger({
   const [replyMessage, setReplyMessage] = useState<replyProps>();
   const [deleteMessage, setDeleteMessage] = useState<MessageListProps>();
   const [messageList, setMessageList] = useState<Array<MessageListProps>>([]);
-  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const [isReply, setIsReply] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<Boolean>(false);
   const latestConversationRef = useRef<HTMLDivElement>(null);
+  const inputFocusRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
     if (latestConversationRef.current === null) return;
@@ -46,11 +52,9 @@ export default function Messenger({
   const navigate = useNavigate();
 
   const getData = () => {
-    axios
-      .get('https://json-server-wanted14.herokuapp.com/messages')
-      .then((res) => {
-        setMessageList(res.data);
-      });
+    axios.get(MESSEAGE_URL).then((res) => {
+      setMessageList(res.data);
+    });
   };
 
   const userInfo = useSelector((state: RootState) => state.authReducer);
@@ -58,32 +62,42 @@ export default function Messenger({
   useEffect(() => {});
 
   useEffect(() => {
-    if (!userInfo.isLogged) navigate('/login');
+    if (!userInfo.isLogged) navigate(LOGIN_ROUTE_URL);
     scrollToBottom();
     getData();
     setIsLoading(false);
-  }, []);
+  }, [userInfo.isLogged, navigate]);
 
   function onClick(e: React.MouseEvent<HTMLButtonElement>, type: string) {
     switch (type) {
       case REPLY: {
         const findMessageObject = messageList.find(
-          (item) => item.date === e.currentTarget.id
+          (item) => item.id === e.currentTarget.id
         );
         if (!findMessageObject) return;
+        if (replyMessage?.content === findMessageObject?.content) {
+          setIsReply((prev) => !prev);
+        } else {
+          setIsReply(true);
+        }
         const newObj = {
           userName: findMessageObject?.userName,
           content: findMessageObject?.content,
+          isReply: isReply,
+          id: findMessageObject.id,
         };
         setReplyMessage(newObj);
+        if (!inputFocusRef.current) return;
+        inputFocusRef.current.focus();
         return;
       }
       case DELETE: {
         const findMessageObject = messageList.find(
-          (item) => item.date === e.currentTarget.id
+          (item) => item.id === e.currentTarget.id
         );
         setDeleteMessage(findMessageObject);
-        dispatch({ type: 'open' });
+        dispatch({ type: OPEN_TYPE });
+
         return;
       }
       default:
@@ -95,6 +109,7 @@ export default function Messenger({
     scrollToBottom,
     getData,
     replyMessage,
+    inputFocusRef,
   };
 
   return isLoading ? (
@@ -106,6 +121,7 @@ export default function Messenger({
         <MessageContainer
           getData={getData}
           data={messageList}
+          replyMessage={replyMessage}
           onClickReply={(e) => onClick(e, REPLY)}
           onClickDelete={(e) => onClick(e, DELETE)}
           deleteData={deleteMessage}
