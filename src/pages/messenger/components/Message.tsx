@@ -82,7 +82,7 @@ export default function Message({
       {showModal && deleteData && (
         <Modal
           getData={getData}
-          key={date}
+          key={id}
           isShow={deleteData?.id === id}
           header="메세지를 삭제하시겠습니까?"
           content={deleteData}

@@ -21,18 +21,18 @@ export default function MessageContainer({
   deleteData,
   replyMessage,
 }: MessageContainerProps) {
+  const messageProps = {
+    getData,
+    replyMessage,
+    onClickReply,
+    onClickDelete,
+    deleteData,
+  };
+
   return (
     <>
-      {data.map((item, i) => (
-        <Message
-          getData={getData}
-          replyMessage={replyMessage}
-          key={i}
-          attr={item}
-          onClickReply={onClickReply}
-          onClickDelete={onClickDelete}
-          deleteData={deleteData}
-        />
+      {data.map((item) => (
+        <Message {...messageProps} key={item.id} attr={item} />
       ))}
       <EmptyBox />
     </>

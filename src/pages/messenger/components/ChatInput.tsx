@@ -38,7 +38,9 @@ export default function ChatInput({
 
   const sendMessage = () => {
     const moment = require('moment-timezone');
-
+    if (replyMessage) {
+      replyMessage.isReply = false;
+    }
     if (messageText) {
       const newID = function (): string {
         return Math.random().toString(36).substr(2, 16);
@@ -83,18 +85,16 @@ export default function ChatInput({
         return setMessageText('');
       }
       const answerFormat =
-        '사용자 이름: ' +
-        replyMessage.userName +
+        `사용자 이름:${replyMessage.userName}` +
         '\n' +
-        '채팅 내용: ' +
-        replyMessage.content +
-        '\n' +
-        '회신: ';
+        `채팅 내용:${replyMessage.content}` +
+        `\n` +
+        `회신:`;
       setMessageText(() => {
         if (messageText.includes('회신') && replyMessage.isReply) {
-          return answerFormat;
+          return answerFormat.trim();
         } else {
-          return messageText + '\n' + answerFormat;
+          return `${messageText}\n${answerFormat}`;
         }
       });
     }

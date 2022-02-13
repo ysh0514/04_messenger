@@ -112,20 +112,24 @@ export default function Messenger({
     inputFocusRef,
   };
 
+  const messageContainerProps = {
+    getData,
+    data: messageList,
+    replyMessage,
+    onClickReply: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+      onClick(e, REPLY),
+    onClickDelete: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+      onClick(e, DELETE),
+    deleteData: deleteMessage,
+  };
+
   return isLoading ? (
     <LoadingIndicator />
   ) : (
     <>
       <Header userName={userName} profileImage={profileImage} />
       <div ref={latestConversationRef}>
-        <MessageContainer
-          getData={getData}
-          data={messageList}
-          replyMessage={replyMessage}
-          onClickReply={(e) => onClick(e, REPLY)}
-          onClickDelete={(e) => onClick(e, DELETE)}
-          deleteData={deleteMessage}
-        />
+        <MessageContainer {...messageContainerProps} />
       </div>
       <ChatInput {...chatProps} />
     </>
