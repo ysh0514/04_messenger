@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import ModalStyle from '../../assets/styles/ModalStyle';
 import Message from 'pages/messenger/components/Message';
-import axios from 'axios';
 import { MessageListProps } from 'utils/InterfaceSet';
 import { CLOSE_TYPE } from 'store/actions/types';
 import { MESSEAGE_URL } from 'constants/constants';

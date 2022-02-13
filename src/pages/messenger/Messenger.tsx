@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { RootState } from '../../store/reducers';
 import { MessageContainer, Header, ChatInput } from '../';
 import { MessageListProps, replyProps } from '../../utils/InterfaceSet';
 import LoadingIndicator from 'components/LoadingIndicator';
-import axios from 'axios';
 import {
   DELETE,
   LOGIN_ROUTE_URL,

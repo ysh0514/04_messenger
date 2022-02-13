@@ -1,8 +1,8 @@
 import { useState, useEffect, RefObject } from 'react';
+import axios from 'axios';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
-import axios from 'axios';
 import { RootState } from 'store/reducers';
 import { useSelector } from 'react-redux';
 import { MessageListProps, replyProps } from 'utils/InterfaceSet';

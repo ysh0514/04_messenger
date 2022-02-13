@@ -22,7 +22,6 @@ const {
   BtnContainer,
   ErrorBox,
   LoginBtn,
-  // SignupBtn,
 } = LoginStyle;
 
 export default function Login() {
