@@ -5,6 +5,14 @@ import { useDispatch } from 'react-redux';
 import { userInfoProps } from '../../utils/InterfaceSet';
 import LOGO from '../../assets/images/logo.svg';
 import LoginStyle from 'assets/styles/LoginStyle';
+import {
+  AUTH_IMAGE,
+  AUTH_ISLOGGED,
+  AUTH_USERID,
+  AUTH_USERNAME,
+  COMMON_TYPE,
+} from 'store/actions/types';
+import { LOGIN_URL } from 'constants/constants';
 
 const {
   Container,
@@ -14,7 +22,6 @@ const {
   BtnContainer,
   ErrorBox,
   LoginBtn,
-  // SignupBtn,
 } = LoginStyle;
 
 export default function Login() {
@@ -27,10 +34,10 @@ export default function Login() {
   useEffect(() => {
     if (!userInfo) return;
 
-    dispatch({ type: 'common', name: 'isLogged', data: true });
-    dispatch({ type: 'common', name: 'userId', data: userInfo.id });
-    dispatch({ type: 'common', name: 'userName', data: userInfo.name });
-    dispatch({ type: 'common', name: 'profileImage', data: userInfo.img });
+    dispatch({ type: COMMON_TYPE, name: AUTH_ISLOGGED, data: true });
+    dispatch({ type: COMMON_TYPE, name: AUTH_USERID, data: userInfo.id });
+    dispatch({ type: COMMON_TYPE, name: AUTH_USERNAME, data: userInfo.name });
+    dispatch({ type: COMMON_TYPE, name: AUTH_IMAGE, data: userInfo.img });
     navigate('/');
   }, [dispatch, navigate, userInfo]);
 
@@ -41,7 +48,7 @@ export default function Login() {
     };
 
   const handleLogin = () => {
-    const END_POINT = 'https://json-server-wanted14.herokuapp.com/login';
+    const END_POINT = LOGIN_URL;
     axios
       .post(END_POINT, { id: loginInfo.id, password: loginInfo.password })
       .then((res) => {

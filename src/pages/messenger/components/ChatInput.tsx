@@ -1,38 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, RefObject } from 'react';
+import axios from 'axios';
+import { v4 } from 'uuid';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
-import axios from 'axios';
 import { RootState } from 'store/reducers';
 import { useSelector } from 'react-redux';
+import { MessageListProps, replyProps } from 'utils/InterfaceSet';
+import { DATE_FORMAT, LOCATION, MESSEAGE_URL } from 'constants/constants';
 
 const { ChatInputContainer, InputWrapper, TextArea, SendButton, SendIcon } =
   ChatInputStyle;
 
-interface MessageInfoProps {
-  id: number;
-  userId: string;
-  userName: string;
-  profileImage: string;
-  content: string;
-  date: string;
-}
-
-interface replyDataProps {
-  userName: string;
-  content: string;
-}
-
 interface ChatInputProps {
   getData: () => void;
-  replyMessage?: replyDataProps;
+  replyMessage?: replyProps;
   scrollToBottom: () => void;
+  inputFocusRef: RefObject<HTMLTextAreaElement>;
 }
 
 export default function ChatInput({
   getData,
   replyMessage,
   scrollToBottom,
+  inputFocusRef,
 }: ChatInputProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(true);
   const [messageText, setMessageText] = useState(String);
@@ -48,24 +39,24 @@ export default function ChatInput({
 
   const sendMessage = () => {
     const moment = require('moment-timezone');
-
+    if (replyMessage) {
+      replyMessage.isReply = false;
+    }
     if (messageText) {
-      const chatInfo: MessageInfoProps = {
-        id: Date.now(),
+      const chatInfo: MessageListProps = {
+        id: v4(),
         userId: authInfo.userId,
         userName: authInfo.userName,
         profileImage: authInfo.profileImage,
         content: messageText,
-        date: moment().tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss'),
+        date: moment().tz(LOCATION).format(DATE_FORMAT),
       };
-      axios
-        .post('https://json-server-wanted14.herokuapp.com/messages', chatInfo)
-        .then((res) => {
-          getData();
-          setTimeout(() => {
-            scrollToBottom();
-          }, 230);
-        });
+      axios.post(MESSEAGE_URL, chatInfo).then(() => {
+        getData();
+        setTimeout(() => {
+          scrollToBottom();
+        }, 230);
+      });
 
       setMessageText('');
       setButtonDisabled(true);
@@ -88,39 +79,42 @@ export default function ChatInput({
     if (!replyMessage) return;
     if (replyMessage.content !== '') {
       setButtonDisabled(false);
-      setMessageText(
-        messageText +
-          '\n' +
-          '사용자 이름: ' +
-          replyMessage.userName +
-          '\n' +
-          '채팅 내용: ' +
-          replyMessage.content +
-          '\n' +
-          '회신: '
-      );
+      if (!replyMessage.isReply) {
+        return setMessageText('');
+      }
+      const answerFormat =
+        `사용자 이름:${replyMessage.userName}` +
+        '\n' +
+        `채팅 내용:${replyMessage.content}` +
+        `\n` +
+        `회신:`;
+      setMessageText(() => {
+        if (messageText.includes('회신') && replyMessage.isReply) {
+          return answerFormat.trim();
+        } else {
+          return `${messageText}\n${answerFormat}`;
+        }
+      });
     }
   }, [replyMessage]);
 
   return (
-    <>
-      <ChatInputContainer>
-        <InputWrapper method="post" onSubmit={submit}>
-          <TextArea
-            onChange={WriteMessage}
-            value={messageText}
-            onKeyPress={pressSendMessage}
+    <ChatInputContainer>
+      <InputWrapper method="post" onSubmit={submit}>
+        <TextArea
+          ref={inputFocusRef}
+          onChange={WriteMessage}
+          value={messageText}
+          onKeyPress={pressSendMessage}
+        />
+        <SendButton onClick={sendMessage} disabled={buttonDisabled}>
+          <SendIcon
+            alt="전송 아이콘"
+            src={SEND_MESSAGE_ICON}
+            isDisabled={buttonDisabled}
           />
-          <SendButton onClick={sendMessage} disabled={buttonDisabled}>
-            <SendIcon
-              alt="전송 아이콘"
-              src={SEND_MESSAGE_ICON}
-              isDisabled={buttonDisabled}
-            />
-          </SendButton>
-        </InputWrapper>
-      </ChatInputContainer>
-      {/* <EmptyBox /> */}
-    </>
+        </SendButton>
+      </InputWrapper>
+    </ChatInputContainer>
   );
 }

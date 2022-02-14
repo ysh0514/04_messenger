@@ -3,7 +3,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   padding: 15px 20px;
-  background-color: #f8f8f8;
+  background-color: ${({ theme }) => theme.bgGrayColor};
 `;
 
 const ProfileImage = styled.img`
@@ -31,13 +31,18 @@ const UserNameDate = styled.div``;
 
 const MessageFunction = styled.div``;
 
-const AnswerBtn = styled.button`
+const AnswerBtn = styled.button<{ isReply?: boolean }>`
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 12px;
   margin-left: 10px;
+  background-color: ${({ theme, isReply }) =>
+    isReply ? theme.pointBlueColor : 'none'};
+  color: ${({ isReply }) => (isReply ? 'white' : 'black')};
+  transition: all 0.2s ease-in-out;
 `;
 
 const DeleteBtn = styled(AnswerBtn)``;

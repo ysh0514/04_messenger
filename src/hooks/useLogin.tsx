@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { userInfoProps } from '../utils/InterfaceSet';
 import { HttpUtil } from '../utils';
+import { PARAMS_USERS_URL } from 'constants/constants';
 
 export default function useLogin(id: string) {
   const userInfoParam = {
-    url: '/users',
+    url: PARAMS_USERS_URL,
     method: 'GET',
     params: { userId: id },
   };
@@ -20,7 +21,7 @@ export default function useLogin(id: string) {
       setResponse(data);
     };
     getData();
-  }, []);
+  }, [id]);
 
   return { response };
 }

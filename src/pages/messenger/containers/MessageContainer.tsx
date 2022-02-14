@@ -1,22 +1,16 @@
 import Message from '../components/Message';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
+import { MessageListProps, replyProps } from 'utils/InterfaceSet';
 
 const { EmptyBox } = ChatInputStyle;
 
-export interface messagesProps {
-  userId: string;
-  userName: string;
-  profileImage: string;
-  content: string;
-  date: string;
-}
-
 interface MessageContainerProps {
   getData: () => void;
-  data: messagesProps[];
+  data: MessageListProps[];
   onClickReply: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickDelete: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  deleteData?: messagesProps;
+  deleteData?: MessageListProps;
+  replyMessage?: replyProps;
 }
 
 export default function MessageContainer({
@@ -25,18 +19,20 @@ export default function MessageContainer({
   onClickReply,
   onClickDelete,
   deleteData,
+  replyMessage,
 }: MessageContainerProps) {
+  const messageProps = {
+    getData,
+    replyMessage,
+    onClickReply,
+    onClickDelete,
+    deleteData,
+  };
+
   return (
     <>
-      {data.map((item, i) => (
-        <Message
-          getData={getData}
-          key={i}
-          attr={item}
-          onClickReply={onClickReply}
-          onClickDelete={onClickDelete}
-          deleteData={deleteData}
-        />
+      {data.map((item) => (
+        <Message {...messageProps} key={item.id} attr={item} />
       ))}
       <EmptyBox />
     </>

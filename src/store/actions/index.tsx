@@ -1,6 +1,4 @@
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
-export const AUTH_USER = 'authUser';
+import { LOGIN, LOGOUT } from './types';
 
 export const login = (
   userId: string,

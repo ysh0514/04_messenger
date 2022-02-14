@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store/reducers/';
 import Login from 'pages/login/Login';
 import Messenger from 'pages/messenger/Messenger';
+import { LOGIN_ROUTE_URL } from 'constants/constants';
 
 export default function App() {
   const auth = useSelector((state: RootState) => state.authReducer);
@@ -21,7 +22,7 @@ export default function App() {
             />
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route path={LOGIN_ROUTE_URL} element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

@@ -3,6 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { HEADER_LOGO } from 'utils/ImageUtil';
 import HeaderStyle from 'assets/styles/HeaderStyle';
+import {
+  AUTH_CONTENT,
+  AUTH_DATE,
+  AUTH_IMAGE,
+  AUTH_ISLOGGED,
+  AUTH_USERID,
+  AUTH_USERNAME,
+  COMMON_TYPE,
+} from 'store/actions/types';
+import { LOGIN_ROUTE_URL } from 'constants/constants';
 
 const {
   HeaderContainer,
@@ -31,13 +41,13 @@ export default function Header({ userName, profileImage }: headerProps) {
   };
 
   const handleLogout = () => {
-    dispatch({ type: 'common', name: 'isLogged', data: false });
-    dispatch({ type: 'common', name: 'userId', data: '' });
-    dispatch({ type: 'common', name: 'userName', data: '' });
-    dispatch({ type: 'common', name: 'profileImage', data: '' });
-    dispatch({ type: 'common', name: 'content', data: '' });
-    dispatch({ type: 'common', name: 'date', data: '' });
-    navigate('/login');
+    dispatch({ type: COMMON_TYPE, name: AUTH_ISLOGGED, data: false });
+    dispatch({ type: COMMON_TYPE, name: AUTH_USERID, data: '' });
+    dispatch({ type: COMMON_TYPE, name: AUTH_USERNAME, data: '' });
+    dispatch({ type: COMMON_TYPE, name: AUTH_IMAGE, data: '' });
+    dispatch({ type: COMMON_TYPE, name: AUTH_CONTENT, data: '' });
+    dispatch({ type: COMMON_TYPE, name: AUTH_DATE, data: '' });
+    navigate(LOGIN_ROUTE_URL);
   };
   return (
     <>

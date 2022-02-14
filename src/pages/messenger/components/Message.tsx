@@ -1,6 +1,7 @@
 import MessageStyle from 'assets/styles/MessageStyle';
 import { Modal } from 'components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { MessageListProps, replyProps } from 'utils/InterfaceSet';
 import { RootState } from '../../../store/reducers';
 
 const {
@@ -18,21 +19,14 @@ const {
   AreYouAuthor,
 } = MessageStyle;
 
-interface messagesProps {
-  userId: string;
-  userName: string;
-  profileImage: string;
-  content: string;
-  date: string;
-}
-
 interface messageComponentProps {
   getData: () => void;
-  attr: messagesProps;
+  attr: MessageListProps;
   onClickReply?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  deleteData?: messagesProps;
+  deleteData?: MessageListProps;
   isDelete?: boolean;
+  replyMessage?: replyProps;
 }
 
 export default function Message({
@@ -42,8 +36,9 @@ export default function Message({
   onClickDelete,
   deleteData,
   isDelete = false,
+  replyMessage,
 }: messageComponentProps) {
-  const { userId, userName, profileImage, content, date } = attr;
+  const { userId, userName, profileImage, content, date, id } = attr;
   const auth = useSelector((state: RootState) => state.authReducer);
   const isAuthor = userId === auth.userId;
   const showModal = useSelector((state: RootState) => state.switReducer);
@@ -63,17 +58,20 @@ export default function Message({
           {/* 모달창에는 표시 X */}
           <MessageFunction>
             {isAuthor && !isDelete && (
-              <DeleteBtn id={date} onClick={onClickDelete}>
+              <DeleteBtn id={id} onClick={onClickDelete}>
                 삭제하기
               </DeleteBtn>
             )}
             {!isDelete && (
-              <AnswerBtn id={date} onClick={onClickReply}>
+              <AnswerBtn
+                isReply={replyMessage?.id === id && replyMessage.isReply}
+                id={id}
+                onClick={onClickReply}
+              >
                 답장하기
               </AnswerBtn>
             )}
           </MessageFunction>
-          {/*  모달창에는 표시 X */}
         </UserNameDateFunction>
         <MessageText>
           {isDelete && content.length > 9
@@ -84,9 +82,9 @@ export default function Message({
       {showModal && deleteData && (
         <Modal
           getData={getData}
-          key={date}
-          isShow={deleteData?.date === date}
-          header={'메세지를 삭제하시겠습니까?'}
+          key={id}
+          isShow={deleteData?.id === id}
+          header="메세지를 삭제하시겠습니까?"
           content={deleteData}
         />
       )}
