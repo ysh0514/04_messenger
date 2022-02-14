@@ -1,5 +1,6 @@
 import { useState, useEffect, RefObject } from 'react';
 import axios from 'axios';
+import { v4 } from 'uuid';
 import ChatInputStyle from 'assets/styles/ChatInputStyle';
 import 'assets/images/sendMessage.png';
 import { SEND_MESSAGE_ICON } from 'utils/ImageUtil';
@@ -42,11 +43,8 @@ export default function ChatInput({
       replyMessage.isReply = false;
     }
     if (messageText) {
-      const newID = function (): string {
-        return Math.random().toString(36).substr(2, 16);
-      };
       const chatInfo: MessageListProps = {
-        id: newID(),
+        id: v4(),
         userId: authInfo.userId,
         userName: authInfo.userName,
         profileImage: authInfo.profileImage,
