@@ -99,7 +99,7 @@ src
 
 - json-server를 활용한 배포된 endpoint로 post 요청하여 로그인
 - db에서 일치하는 데이터가 없으면 로그인 거부 및 안내 문구
-- 로그인에 성공하면 useNavigate Hook 사용하여 메인 페이지로 이동 및 Redux로 전역 상태인 유저의 정보와 로그인 상태 변경
+- 로그인에 성공하면 useNavigate Hook 사용하여 메인 페이지로 이동 및 Redux로 전역 상태인 유저의 정보와 로그인 상태 변경.
 
 ### Header
 
